@@ -13,4 +13,5 @@ public interface IUserService {
 	public void modUser(Uzer uzer);
 	public List<Uzer> showUsers(); 
 	public Uzer findUser(int id) throws Exception; 
+	public Uzer findUserByDni(int dni) throws Exception;
 }

@@ -40,6 +40,9 @@ public class IUserServiceImp implements IUserService {
 	@Override
 	public void modUser(Uzer uzer) {
 		// TODO Auto-generated method stub
+		String pw = uzer.getPassword();
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
+		uzer.setPassword(bCryptPasswordEncoder.encode(pw));
 		userRepository.save(uzer);
 	}
 	@Override
@@ -68,5 +71,12 @@ public class IUserServiceImp implements IUserService {
 		
 		return foundUser;
 	}	
+	
+	public Uzer findUserByDni(int dni) throws Exception {
+		
+		Uzer founduser = new Uzer();
+		founduser = userRepository.findByDni(dni).orElseThrow(()-> new Exception("usuario no encontrado"));
+		return founduser;
+	}
 
 }

@@ -34,7 +34,7 @@ public class AutenticationSuccessHandler implements AuthenticationSuccessHandler
 			}
 		}
 			if(admin) {
-				redirectStrategy.sendRedirect(request, response, "/anotherCourse");
+				redirectStrategy.sendRedirect(request, response, "/anotherMovie");
 			}else
 				redirectStrategy.sendRedirect(request, response, "/home");
 	}

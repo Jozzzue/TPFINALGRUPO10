@@ -85,11 +85,23 @@ public class UserController {
 	public ModelAndView modUser(Model model, @PathVariable(name="id") int id) throws Exception {
 		Uzer userfound = new Uzer();
 		try {
-			userfound = userService.findUser(id);		
-		}
-		catch (Exception e) {
+			LOGGER.error("Primer try modUsser: "+userfound.getDni()+ " " +userfound.getId());
+			userfound = userService.findUser(id);
+		}catch (Exception e) {
 			model.addAttribute("formUserErrorMessage", e.getMessage());
 		}
+		if(userfound.getDni()==0)
+		{
+			try {
+				userfound = userService.findUserByDni(id);
+				LOGGER.error("Second try modUser: "+userfound.getDni()+ " " +userfound.getId());
+				model.addAttribute("formUserErrorMessage",null);
+			}catch (Exception e) {
+				model.addAttribute("formUserErrorMessage", e.getMessage());
+				
+			} 
+		}
+		
 		ModelAndView view = new ModelAndView("uploadusers");
 	    view.addObject("user", userfound);
 	    LOGGER.error("saliendo del metodo: modUser "+ userfound.getDni());

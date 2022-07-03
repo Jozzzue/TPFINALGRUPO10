@@ -11,7 +11,20 @@
 </head>
 
 <body>
+<div th:insert="/layouts/header :: header"></div>
 <div class="container">
+	<div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show row" role="alert">Combinacion Invalida de Usuario y Contraseña
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show row" role="alert">Ha finalizado sesion
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+	 <div class="alert-danger text-center alert-dismissible fade show row" role="alert" th:if="${formLoginErrorMessage}" th:text="${formLoginErrorMessage}">Name Error
+	 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	 </div> 
+	
 <form class="form" th:object="${usuarioDelForm}" th:action="@{/login}" method="post">
   <div class="form-group">
     <label for="dni">DNI</label>
@@ -20,14 +33,18 @@
   <div class="form-group">
     <label for="passwordID">Password</label>
     <input type="password" class="form-control" id="passwordID" placeholder="Contraseña" name="pasaje" th:field="*{password}">
-  </div>  
-  <button type="submit" class="btn btn-primary">Ingresar</button>
-  <div class="alert-danger text-center" th:if="${formLoginErrorMessage}" th:text="${formLoginErrorMessage}">Name Error</div>  
+  </div>  <br>
+  <div>
+  		<button type="submit" class="btn btn-primary">Ingresar</button>
+  		<a th:href="@{/anotherUser}">No tienes una cuenta?Registrate aqui</a>
+  </div>
+  
+ 
 </form>
-
-	<div th:if="${param.error}" class="alert alert-danger" role="alert">Combinacion Invalida de Usuario y Contraseña</div>
-	<div th:if="${param.logout}" class="alert alert-success" role="alert">Ha finalizado sesion</div>
 </div>
 </body>
+
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
 </html>

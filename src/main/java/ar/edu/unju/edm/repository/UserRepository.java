@@ -11,5 +11,6 @@ import ar.edu.unju.edm.model.Uzer;
 public interface  UserRepository extends CrudRepository <Uzer,Integer>{
 
 	public Optional<Uzer> findByDni(Integer dni);
-    
 }
+
+

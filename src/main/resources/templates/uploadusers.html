@@ -28,7 +28,6 @@
 <!-- Formulario -->
 	<form th:object="${user}" th:action="${editMode}?@{/editUser}:@{/saveUser}" method="post" id="formGeneral">
 		
-		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{password}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{status}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{id}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{dni}">
@@ -56,7 +55,7 @@
 			 <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
  
 		</div>
-		<div class="mb-3" th:if="${editMode == false}">
+		<div class="mb-3">
 			<label for="pwd" class="form-label">Contraseña:</label> 
 			<input th:field="*{password}" type="password" class="form-control" id="pwd" placeholder="Contraseña..." required>
 			<div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
