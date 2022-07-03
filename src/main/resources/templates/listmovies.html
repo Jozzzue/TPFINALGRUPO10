@@ -28,6 +28,10 @@
 				<th scope="col">Imagen</th>
 				<th scope="col">Genero/s</th>
 				<th scope="col">Descripcion</th>
+				<th scope="col">Duracion</th>
+				<th scope="col">Estreno</th>
+				<th scope="col">Horario</th>
+				<th scope="col">Sala</th>
 				<th scope="col">Acciones</th>
 			</tr>
 		</thead>
@@ -39,6 +43,10 @@
 				<td><img th:src="${'data:image/png;base64,'+movie.image}" alt="150x150" class=" circle img-fluid" /></td>
 				<td th:text="${movie.genres}"></td>
 				<td th:text="${movie.description}"></td>
+				<td th:text="${movie.lenght}"></td>
+				<td th:text="${movie.premiere}"></td>
+				<td th:text="${movie.schedule}"></td>
+				<td th:text="${movie.hall}"></td>
 				 <td>
 			      	<a class="btn btn-warning fa fa-pencil" th:href="@{/updateMovie/}+${movie.id}"></a>
 			      	<a class="btn btn-danger fa fa-trash" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'"></a>

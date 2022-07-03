@@ -12,7 +12,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
@@ -54,6 +54,7 @@ public class Uzer {
 	@Max(value=99999999, message="El dni debe ser menor a 99.999.999")
 	private int dni;
 	
+	@NotNull(message="Seleccione un tipo")
 	private String type;
 	
 	private Boolean status;

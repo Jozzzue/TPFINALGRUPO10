@@ -9,6 +9,11 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
 <!--Icono NavBar-->
 <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
 
@@ -25,84 +30,14 @@
 					<hr>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-					<div class="card text-white card-has-bg click-col"
-						style="background-image: url('/img/ArduinoLogo.png');">
-						<div class="card-img-overlay d-flex flex-column">
-							<div class="card-body">
-								<small class="card-meta mb-2">1 cuota sin interés</small>
-								<h4 class="card-title mt-0 ">
-									<a class="text-white" href="#">Aprendiendo a programar con
-										Arduino</a>
-								</h4>
-								<small><i class="far fa-clock"></i> 2 semanas</small>
-							</div>
-							<div class="card-footer">
-								<div class="media">
-									<img class="mr-3 rounded-circle" src="/img/moodle.png"
-										alt="Generic placeholder image" style="max-width: 50px">
-									<div class="media-body">
-										<h6 class="my-0 text-white d-block">Moodle</h6>
-										<small>Plataforma eLearning</small>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-					<div class="card text-white card-has-bg click-col"
-						style="background-image: url('/img/Angular_full.png');">
-						<div class="card-img-overlay d-flex flex-column">
-							<div class="card-body">
-								<small class="card-meta mb-2">3 cuotas sin interés</small>
-								<h4 class="card-title mt-0 ">
-									<a class="text-white" href="#">Desarrollo con Angular</a>
-								</h4>
-								<small><i class="far fa-clock"></i> 3 semanas</small>
-							</div>
-							<div class="card-footer">
-								<div class="media">
-									<img class="mr-3 rounded-circle" src="/img/udemy.png"
-										alt="Generic placeholder image" style="max-width: 50px">
-									<div class="media-body">
-										<h6 class="my-0 text-white d-block">Udemy</h6>
-										<small>Plataforma de cursos en línea</small>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-					<div class="card text-white card-has-bg click-col"
-						style="background-image: url('/img/fdp.png');">
-						<div class="card-img-overlay d-flex flex-column">
-							<div class="card-body">
-								<small class="card-meta mb-2">1 cuota sin interés</small>
-								<h4 class="card-title mt-0 ">
-									<a class="text-white" href="#">Fundamentos de Programación</a>
-								</h4>
-								<small><i class="far fa-clock"></i> 1 semana</small>
-							</div>
-							<div class="card-footer">
-								<div class="media">
-									<img class="mr-3 rounded-circle" src="/img/sakai.png"
-										alt="Generic placeholder image" style="max-width: 50px">
-									<div class="media-body">
-										<h6 class="my-0 text-white d-block">Sakai</h6>
-										<small>Plataforma LMS</small>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 		</div>
 	</section>
 	<!--::::Pie de Pagina::::::-->
 	<div th:insert="/layouts/footer :: footer"></div>
+	
+	<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+	
 </body>
 </html>

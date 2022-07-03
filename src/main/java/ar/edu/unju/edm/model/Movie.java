@@ -4,6 +4,8 @@ package ar.edu.unju.edm.model;
 
 
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -11,11 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,15 +42,30 @@ public class Movie {
 	@NotBlank(message="La descripcion no puede ser espacios en blanco")
 	private String description;
 	
-
+	@NotNull(message="Debe elegir al menos un genero")
 	private String genres;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@FutureOrPresent(message="El estreno todavia no ocurrio")
+	private LocalDate premiere;
+	
+	
+	@NotNull(message="Ingrese horario de estreno")
+	private String schedule;
+	
+	
+	@NotNull(message="Ingrese duracion de la pelicula")
+	private String lenght;
 	
 	
 	@Lob
 	private String image;
 	private Boolean status;
 	
+	@Min(value=1, message="Elija una sala")
+	@Max(value=7, message="Elija una sala")
+	@NotNull(message="Elija una sala")
+	private int hall;
 	
 	public Movie() {
 		// TODO Auto-generated constructor stub
@@ -100,5 +121,29 @@ public class Movie {
 	public void setGenres(String genres) {
 		this.genres = genres;
 	}
-
+	public LocalDate getPremiere() {
+		return premiere;
+	}
+	public void setPremiere(LocalDate premiere) {
+		this.premiere = premiere;
+	}
+	public String getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+	
+	public int getHall() {
+		return hall;
+	}
+	public void setHall(int hall) {
+		this.hall = hall;
+	}
+	public String getLenght() {
+		return lenght;
+	}
+	public void setLenght(String lenght) {
+		this.lenght = lenght;
+	}
 }

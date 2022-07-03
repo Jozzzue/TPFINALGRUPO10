@@ -85,6 +85,16 @@ public class MovieController {
 		return view;
 	}
 	
+	@GetMapping({"/listMovies2"})	
+	public ModelAndView listMovie2() {
+		ModelAndView view = new ModelAndView("listmovies2");
+		if(movieService.showMovies().size() != 0) {
+		view.addObject("movies",movieService.showMovies());
+		LOGGER.info("ingresando al metodo: listMovies2 "+ movieService.showMovies().get(0).getName());
+		}
+		return view;
+	}
+	
 	
 	
 	// modificar pelicula
