@@ -113,7 +113,7 @@ public class TicketController {
 		
 		ModelAndView view = new ModelAndView("ticketlist");
 		view.addObject("ticketss", userTickets);
-		LOGGER.info("ingresando al metodo: listtickets "+ userTickets.size() + " " + userTickets.get(0));
+		LOGGER.info("ingresando al metodo: listtickets "+ userTickets.size());
 		return view;
 	}
 	
