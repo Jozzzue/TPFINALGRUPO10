@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+<!-- <link th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"  rel="stylesheet" type="text/css"> -->
+<link th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}"
+	rel="stylesheet" type="text/css">
+<link th:href="@{/css/miEstilo.css}" rel="stylesheet" type="text/css">
+<!--Icono NavBar-->
+<script src="https://kit.fontawesome.com/eb496ab1a0.js"
+	crossorigin="anonymous"></script>
+<title>TPFINAL - GRUPO 10</title>
+</head>
+<body>
+	<div th:insert="/layouts/header :: header"></div>
+	
+	<div class="container-sm-1">
+	<table class="table table-dark table-striped">
+		<thead>
+			<tr class="text-center">
+			<th scope="col">ID</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Imagen</th>
+				<th scope="col">Genero/s</th>
+				<th scope="col">Descripcion</th>
+				<th scope="col">Duracion</th>
+				<th scope="col">Estreno</th>
+				<th scope="col">Horario</th>
+				<th scope="col">Sala</th>
+				<th scope="col">Acciones</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="text-center" th:each="movie:${movies}">
+				<td th:text="${movie.id}"></td>
+				<td th:text="${movie.name}"></td>
+				<td><img th:src="${'data:image/png;base64,'+movie.image}" alt="150x150" class=" circle img-fluid" /></td>
+				<td th:text="${movie.genres}"></td>
+				<td th:text="${movie.description}"></td>
+				<td th:text="${movie.lenght}"></td>
+				<td th:text="${movie.premiere}"></td>
+				<td th:text="${movie.schedule}"></td>
+				<td th:text="${movie.hall}"></td>
+				 <td>
+			      	<a class="btn btn-warning fa fa-pencil" th:href="@{/updateMovie/}+${movie.id}"></a>
+			      	<a class="btn btn-danger fa fa-trash" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'"></a>
+			     </td>
+
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<!-- MODAL ELIMINAR Usuario funciona con JS-->
+	<div class="modal fade show row modal-dismissible" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+									
+										<div class="modal-header">
+											<h5 class="modal-title" id="eliminarModalTitulo">Confirmar Eliminar</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										
+										<div class="modal-body"><h6>¿Seguro quiere eliminar esta Pelicula?</h6></div>
+											<form>										
+											<input class="form-control" type="text" id="identificadorDePelicula" name="userIdHiddenInput"/>
+											</form>
+										
+										<div class="modal-footer">									
+											<button type="button" class="btn btn-primary" th:onclick="eliminarPelicula()">Si, Borrar</button>
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+	<script type="text/javascript">
+		var exampleModal = document.getElementById('modalEliminar')
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var recipient = button.getAttribute('data-bs-mail')
+			var recipient2 = button.getAttribute('data-bs-whatever')
+			// If necessary, you could initiate an AJAX request here
+			// and then do the updating in a callback.
+			//
+			// Update the modal's content.
+			var modalTitle = exampleModal.querySelector('.modal-title')
+			var modalBodyInput = exampleModal
+					.querySelector('.modal-body input')
+
+			modalTitle.textContent = 'Eliminar Pelicula ' + recipient
+			modalBodyInput.value = recipient2
+		})
+	</script>
+
+	<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		function confirmarEliminar(id) {
+			$("#identificadorDePelicula").val(id);
+			$('#modalEliminar').modal('show');
+		}
+
+		function eliminarPelicula() {
+			var id = $("#identificadorDePelicula").val();
+			window.location = "/delMovie/" + id;
+		}
+	</script>
+</body>
+</html>
