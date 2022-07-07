@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
+@Table(name="movies")
 public class Movie {
 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -146,4 +148,46 @@ public class Movie {
 	public void setLenght(String lenght) {
 		this.lenght = lenght;
 	}
+	public Movie(int id,
+			@Size(min = 2, max = 50, message = "EL nombre debe tener 2 caracteres minimo, maximo 50") @NotBlank(message = "El nombre no puede ser espacios en blanco") @NotEmpty(message = "El nombre no puede estar vacio") String name,
+			@Size(min = 0, max = 200, message = "La descripcion debe tener maximo 100 caracteres") @NotBlank(message = "La descripcion no puede ser espacios en blanco") String description,
+			@NotNull(message = "Debe elegir al menos un genero") String genres,
+			@FutureOrPresent(message = "El estreno todavia no ocurrio") LocalDate premiere,
+			@NotNull(message = "Ingrese horario de estreno") String schedule,
+			@NotNull(message = "Ingrese duracion de la pelicula") String lenght, String image, Boolean status,
+			@Min(value = 1, message = "Elija una sala") @Max(value = 7, message = "Elija una sala") @NotNull(message = "Elija una sala") int hall) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.genres = genres;
+		this.premiere = premiere;
+		this.schedule = schedule;
+		this.lenght = lenght;
+		this.image = image;
+		this.status = status;
+		this.hall = hall;
+	}
+	public Movie(int id,
+			@Size(min = 2, max = 50, message = "EL nombre debe tener 2 caracteres minimo, maximo 50") @NotBlank(message = "El nombre no puede ser espacios en blanco") @NotEmpty(message = "El nombre no puede estar vacio") String name,
+			@Size(min = 0, max = 200, message = "La descripcion debe tener maximo 100 caracteres") @NotBlank(message = "La descripcion no puede ser espacios en blanco") String description,
+			@NotNull(message = "Debe elegir al menos un genero") String genres,
+			@FutureOrPresent(message = "El estreno todavia no ocurrio") LocalDate premiere,
+			@NotNull(message = "Ingrese horario de estreno") String schedule,
+			@NotNull(message = "Ingrese duracion de la pelicula") String lenght, Boolean status,
+			@Min(value = 1, message = "Elija una sala") @Max(value = 7, message = "Elija una sala") @NotNull(message = "Elija una sala") int hall) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.genres = genres;
+		this.premiere = premiere;
+		this.schedule = schedule;
+		this.lenght = lenght;
+		this.status = status;
+		this.hall = hall;
+	}
+	
+	
+	
 }

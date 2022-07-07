@@ -47,6 +47,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li>
             <a class="dropdown-item" th:href="@{/update/}+${#authentication.getPrincipal().getUsername()}"><i class="fa fa-pencil" aria-hidden="true"></i><small>	Modificar perfil</small></a>
+            <a class="dropdown-item" th:href="@{/listTickets/}+${#authentication.getPrincipal().getUsername()}"><i class="fa fa-pencil" aria-hidden="true"></i><small>	Ver tickets</small></a>
            
       		<form th:action="@{/logout}" method="post">
       		<button class="dropdown-item" type="submit">

@@ -116,6 +116,23 @@ public class Uzer {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public Uzer(int id, @NotEmpty String email, String password,
+			@Size(min = 2, max = 50, message = "El apellido debe tener 2 caracteres minimo, maximo 50") @NotBlank(message = "El apellido no puede ser espacios en blanco") @NotEmpty(message = "El apellido no puede estar vacio") String lastname,
+			@Size(min = 2, max = 50, message = "EL nombre debe tener 2 caracteres minimo, maximo 50") @NotBlank(message = "El nombre no puede ser espacios en blanco") @NotEmpty(message = "El nombre no puede estar vacio") String name,
+			@Min(value = 1000000, message = "El dni debe ser mayor a 1.000.000") @Max(value = 99999999, message = "El dni debe ser menor a 99.999.999") int dni,
+			@NotNull(message = "Seleccione un tipo") String type, Boolean status) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.lastname = lastname;
+		this.name = name;
+		this.dni = dni;
+		this.type = type;
+		this.status = status;
+	}
 
+	
+	
 	
 }
