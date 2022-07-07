@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	crossorigin="anonymous">
+<!-- <link th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"  rel="stylesheet" type="text/css"> -->
+<link th:href="@{/css/miEstilo.css}" rel="stylesheet" type="text/css">
+<!--Icono NavBar-->
+<script src="https://kit.fontawesome.com/eb496ab1a0.js"
+	crossorigin="anonymous"></script>
+<title>TPFINAL - GRUPO 10</title>
+</head>
+<body id="form-body">
+	<div th:insert="/layouts/header :: header"></div>
+	
+<div class= "container">
+	<div class="alert alert-success alert-dismissible fade show row" role="alert" th:if="${formMovieMessage}" >
+		<label th:text="${formMovieMessage}"></label>  
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+</div>
+
+<div class="container">
+<!-- Formulario -->
+	<form class="form" th:object="${movie}" th:action="${editMode}?@{/editMovie}:@{/saveMovie}" method="post" id="formGeneral" enctype="multipart/form-data">
+		
+		
+		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{status}">
+		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{id}">
+		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{image}">
+		<h1>Registro</h1>
+		
+		<div class="grupo mb-3">
+			<label for="nameID" class="form-label">Nombre:</label> 
+			<input th:field="*{name}" type="text" class="form-control" id="nombre" placeholder="Nombre..." name="nombreID" required>
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+		</div>
+		<div class="grupo mb-3">
+			<label for="genreID" class="form-label">Genero:</label>
+			<div id="genreID">
+				 <div class="form-check form-check-inline">
+				  <input th:field="*{genres}" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="horror">
+				  <label class="form-check-label" for="inlineCheckbox1">Terror</label>
+				</div>
+				<div class="grupo form-check form-check-inline">
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="amor" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox2">Amor</label>
+				</div>
+				<div class="grupo form-check form-check-inline">
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="comedia" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox2">Comedia</label>
+				</div>
+				<div class="grupo form-check form-check-inline">
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="accion" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox2">Accion</label>
+				</div>
+				<div class="grupo form-check form-check-inline">
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="aventuras" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox2">Aventuras</label>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="grupo mb-3">
+	    	<label for="premiereID" class="form-label">Estreno</label>
+		    <input th:field="*{premiere}" type="date" class="form-control" id="premiereID">
+		     <div class="alert alert-danger" th:if="${#fields.hasErrors('premiere')}" th:errors="*{premiere}"></div>
+		</div>
+		<div class="grupo mb-3">
+			<label for="timeID" class="form-label">Horario del Estreno:</label> 
+			<input type="time" th:field="*{schedule}" class="form-control" id="timeID" max="22:00" min="16:00" required>
+			 <div class="alert alert-danger" th:if="${#fields.hasErrors('schedule')}" th:errors="*{schedule}"></div>
+		</div>
+		<div class="grupo mb-3">
+			<label for="durationID" class="form-label">Duracion:</label> 
+			<input type="time" th:field="*{lenght}" class="form-control" id="durationID" max="05:00" min="01:00" required>
+			 <div class="alert alert-danger" th:if="${#fields.hasErrors('lenght')}" th:errors="*{lenght}"></div>
+		</div>
+		 <div class="grupo mb-3">
+    			<label for="descripcionID" class="form-label">Descripcion</label>
+    			
+    			<textarea class="form-control" th:field="*{description}" id="descripcionID" rows="3" required>
+    			</textarea>  			
+    			<div class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+  		</div>
+  		<div class="grupo mb-3">
+  			<label for="exampleFormControlSelect1">Seleccione una sala ...</label>
+			    <select class="form-control" id="exampleFormControlSelect1" th:field="*{hall}">
+			      <option value="1">1</option>
+			      <option value="2">2</option>
+			      <option value="3">3</option>
+			      <option value="4">4</option>
+			      <option value="5">5</option>
+			      <option value="6">6</option>
+			      <option value="7">7</option>
+			    </select>
+			  		
+  		<div class="alert alert-danger" th:if="${#fields.hasErrors('hall')}" th:errors="*{hall}"></div>
+  		</div>
+		 <!-- <div class="mb-3">
+    			<label for="generoID" class="form-label">Genero</label>
+    			<input th:field="*{genre}" type="text" class="form-control" placeholder="..." id="generoID" required>
+    			<div class="alert alert-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+  		</div>-->
+		
+		<div class="form-group row" th:if="${editMode == false}">
+					<label for="file" class="col-sm-4 col-form-label"> Subir Imagen </label>
+					<div class="col-sm-10">
+						<input type="file" name="file" class="form-control-file" id="file" accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg" onchange="loadFile(event)" required> 
+							<img id="output" style="padding-top: 2px; width: 146px;"/>
+					</div>
+				</div>
+	
+		<button type="submit" class="btn btn-primary"><span th:text="${editMode}?'Modificar':'Guardar'"></span></button>
+  <a id="botonVolver" class="btn btn-light" th:href="@{/}">Volver</a>
+	</form>
+</div>
+	
+
+
+
+
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>
