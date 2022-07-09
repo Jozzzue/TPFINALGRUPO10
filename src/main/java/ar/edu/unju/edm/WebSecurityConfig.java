@@ -25,10 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
-		http
+		http.csrf().disable()
 			.authorizeRequests()
 				.antMatchers(resources).permitAll()
-				.antMatchers("/","/home","/anotherUser","/saveUser").permitAll()
+				.antMatchers("/","/home","/addUser","/saveUser").permitAll()
+				.antMatchers("/addMovie","/ListMovies","/ListMovies2","/updateMovie/**","editMovie","/delMovie/**","/saveMovie").hasAuthority("ADMIN")
+				.antMatchers("/ListMovies2").hasAuthority("NORMAL")
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()

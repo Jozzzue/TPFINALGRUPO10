@@ -7,69 +7,100 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import ar.edu.unju.edm.model.MovieUserTicket;
-import ar.edu.unju.edm.model.Uzer;
-import ar.edu.unju.edm.repository.MovieUserTicketRepository;
-import ar.edu.unju.edm.util.ListMovieUserTickets;
-import ar.edu.unju.edm.service.IMovieUserTicketService;
+import ar.edu.unju.edm.model.MovieUser;
+import ar.edu.unju.edm.repository.MovieUserRepository;
+import ar.edu.unju.edm.util.ListMovieUser;
+import ar.edu.unju.edm.service.IMovieUserService;
 
 
 @Service
-public class IMovieUserTicketImp implements IMovieUserTicketService {
+public class IMovieUserTicketImp implements IMovieUserService {
 
 	@Autowired
-	ListMovieUserTickets tickets;
+	ListMovieUser movieUsers;
 	@Autowired
-	MovieUserTicketRepository ticketRepository;
+	MovieUserRepository movieUserRepository;
+	
+	
+	
 	@Override
-	public void saveTicket(MovieUserTicket ticket) {
+	public void saveMovieUser(MovieUser ticket) {
 		// TODO Auto-generated method stub
-		ticketRepository.save(ticket);
+		movieUserRepository.save(ticket);
 	}
-	
+
 	@Override
-	public void deleteTicket(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	@Override
-	public void modTicket(MovieUserTicket ticket) {
+	public void deleteMovieUser(Integer id) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
 	@Override
-	public List<MovieUserTicket> showTickets() {
+	public void modMovieUser(MovieUser ticket) {
 		// TODO Auto-generated method stub
-		List<MovieUserTicket> aux = new ArrayList<>();
-		aux = (List<MovieUserTicket>) ticketRepository.findAll();
-		return aux;
 	}
-	
-	
+
 	@Override
-	public MovieUserTicket findTicket(Integer id) throws Exception {
+	public List<MovieUser> showMovieUsers() {
+		// TODO Auto-generated method stub
+		return (List<MovieUser>) movieUserRepository.findAll();
+	}
+
+	@Override
+	public MovieUser findMovieUser(Integer id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MovieUserTicket> findByUserId(Uzer user) {
+	public List<MovieUser> findByUserId(Integer id) {
 		// TODO Auto-generated method stub
-		List<MovieUserTicket> userTickets = new ArrayList<>();
-		List<MovieUserTicket> aux = new ArrayList<>();
-		aux = (List<MovieUserTicket>) ticketRepository.findAll();
+		List<MovieUser> userRows = new ArrayList<>();
+		List<MovieUser> aux = new ArrayList<>();
+		aux = (List<MovieUser>) movieUserRepository.findAll();
 		for (int i=0; i<aux.size();i++) {
-			if(aux.get(i).getUser().getId() == user.getId())
-				userTickets.add(aux.get(i));
+			if(aux.get(i).getUser().getId() == id)
+				userRows.add(aux.get(i));
 		}
 		
-		return userTickets;
+		return userRows;
 	}
 	
 
+	@Override
+	public List<MovieUser> findByMovieId(Integer id) {
+		// TODO Auto-generated method stub
+		List<MovieUser> movieRows = new ArrayList<>();
+		List<MovieUser> aux = new ArrayList<>();
+		aux = (List<MovieUser>) movieUserRepository.findAll();
+		for (int i=0; i<aux.size();i++) {
+			if(aux.get(i).getMovie().getId() == id)
+				movieRows.add(aux.get(i));
+		}
+		
+		return movieRows;
+	}
 
+	@Override
+	public List<MovieUser> findByMovieUserId(Integer idUser, Integer idMovie) {
+		// TODO Auto-generated method stub
+		List<MovieUser> movieRows = new ArrayList<>();
+		List<MovieUser> userMovieRows = new ArrayList<>();
+		List<MovieUser> allRows = new ArrayList<>();
+		allRows = (List<MovieUser>) movieUserRepository.findAll();
+		
+		for (int i=0; i<allRows.size();i++) {
+			if(allRows.get(i).getMovie().getId() == idMovie)
+				movieRows.add(allRows.get(i));
+		}
+		
+		for (int i=0; i<movieRows.size();i++) {
+			if(movieRows.get(i).getUser().getId() == idUser)
+				userMovieRows.add(allRows.get(i));
+		}
+		
+		return userMovieRows;
+	}
+
+	
 }
