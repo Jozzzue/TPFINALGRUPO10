@@ -10,7 +10,6 @@ public class Tpfinalgrupo10Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Tpfinalgrupo10Application.class, args);
-		
 	}
 
 	

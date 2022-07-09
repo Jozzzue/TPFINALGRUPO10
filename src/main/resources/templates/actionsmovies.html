@@ -56,7 +56,7 @@
 							</p>
 							<div class="card-footer bg-transparent">
 								<a th:if="${wasBuyed == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'">Comprar Entrada</a> 
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+								<a href="#" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar2(\''+${movie.id}+'\');'">Enviar Valoracion</a>
 							</div>
 						</div>
 					</div>
@@ -105,8 +105,64 @@
 									</div>
 								</div>
 							</div>
+		<!-- MODAL VALORACION Usuario funciona con JS-->
+	<div class="modal fade show row modal-dismissible" id="modalValorar" tabindex="-1" role="dialog" aria-labelledby="valorarModal" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="valorarModalTitulo">Enviar Valoracion</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+										<div class="container">
+										<form th:object="${ticket}" th:action="@{/saveRating/}+${movie.id}+'/'+${#authentication.getPrincipal().getUsername()}" method="post"  class="rate">		
+													
+													<input type="radio" id="star5" name="rate" value="5" />
+												    <label for="star5" title="text">5 stars</label>
+												    <input type="radio" id="star4" name="rate" value="4" />
+												    <label for="star4" title="text">4 stars</label>
+												    <input type="radio" id="star3" name="rate" value="3" />
+												    <label for="star3" title="text">3 stars</label>
+												    <input type="radio" id="star2" name="rate" value="2" />
+												    <label for="star2" title="text">2 stars</label>
+												    <input type="radio" id="star1" name="rate" value="1" />
+												    <label for="star1" title="text">1 star</label>
+												    
+												    <div class="modal-footer">
+												    	<button type="submit" class="btn btn-primary">Comprar</button>
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>									
+														
+													</div> 	
+										</form>
+										</div>
+										
+										 		
+										</div>
+									</div>
+								</div>
+							</div>
 	<script type="text/javascript">
 		var exampleModal = document.getElementById('modalEliminar')
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var recipient = button.getAttribute('data-bs-mail')
+			var recipient2 = button.getAttribute('data-bs-whatever')
+			// If necessary, you could initiate an AJAX request here
+			// and then do the updating in a callback.
+			//
+			// Update the modal's content.
+			var modalTitle = exampleModal.querySelector('.modal-title')
+			var modalBodyInput = exampleModal
+					.querySelector('.modal-body input')
+
+			modalTitle.textContent = 'Eliminar Usuario ' + recipient
+			modalBodyInput.value = recipient2
+		})
+	</script>
+	<script type="text/javascript">
+		var exampleModal = document.getElementById('modalValorar')
 		exampleModal.addEventListener('show.bs.modal', function(event) {
 			// Button that triggered the modal
 			var button = event.relatedTarget
@@ -133,6 +189,18 @@
 		}
 
 		function eliminarUsuario() {
+			var id = $("#identificadorDeUsuario").val();
+			window.location = "/del/" + id;
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function confirmarEliminar2(id) {
+			$("#identificadorDeUsuario").val(id);
+			$('#modalValorar').modal('show');
+		}
+
+		function eliminarUsuario2() {
 			var id = $("#identificadorDeUsuario").val();
 			window.location = "/del/" + id;
 		}

@@ -67,7 +67,7 @@ public class MovieController {
 			}
 		
 			model.addAttribute("formMovieMessage", "Pelicula guardada correctamente");
-			model.addAttribute("user", newMovie);	 
+			model.addAttribute("movie", newMovie);	 
 			model.addAttribute("editMode", false);
 			return "uploadmovies";
 

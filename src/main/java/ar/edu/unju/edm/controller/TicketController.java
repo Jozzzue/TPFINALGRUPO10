@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.edm.model.Comment;
 import ar.edu.unju.edm.model.Movie;
 import ar.edu.unju.edm.model.MovieUserTicket;
+import ar.edu.unju.edm.model.Rating;
 import ar.edu.unju.edm.model.Uzer;
 import ar.edu.unju.edm.service.ICommentsService;
 import ar.edu.unju.edm.service.IMovieService;
@@ -134,6 +135,7 @@ public class TicketController {
 	
 		ModelAndView view = new ModelAndView("actionsmovies");
 		view.addObject("comment",new Comment());
+		view.addObject("rating",new Rating());
 		view.addObject("comments",movieComments);
 	    view.addObject("movie", moviefound);
 	    view.addObject("ticket", newTicket);
