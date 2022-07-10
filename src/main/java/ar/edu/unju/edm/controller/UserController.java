@@ -30,7 +30,7 @@ public class UserController {
 	IUserService userService;
 	
 	// cargar usuarios
-	@GetMapping("/anotherUser")
+	@GetMapping("/addUser")
 	public ModelAndView addUser() {
 		LOGGER.info("ingresando al metodo: addUser");
 		ModelAndView view = new ModelAndView("uploadusers");

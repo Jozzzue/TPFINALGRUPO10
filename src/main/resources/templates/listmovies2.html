@@ -31,7 +31,7 @@
 							<h5 class="card-title text-center" th:text="${movie.name}"></h5>
 							<!--  <p class="card-text" th:text="${movie.description}"></p>-->
 							<div class="d-grid gap-1">
-							<a class="btn btn-primary" th:href="@{/seeOptions/}+${movie.id}" role="button">Ver mas...</a>
+							<a class="btn btn-primary" th:href="@{/seeOptions/}+${movie.id}+'/'+${#authentication.getPrincipal().getUsername()}" role="button">Ver mas...</a>
 							</div>
 							 
 						</div>

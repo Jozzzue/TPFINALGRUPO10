@@ -69,6 +69,27 @@ public class IMovieUserTicketImp implements IMovieUserTicketService {
 		
 		return userTickets;
 	}
+
+	@Override
+	public List<MovieUserTicket> findByUserMovieId(Integer iduser, Integer idmovie) {
+		// TODO Auto-generated method stub
+		List<MovieUserTicket> movieRows = new ArrayList<>();
+		List<MovieUserTicket> userMovieRows = new ArrayList<>();
+		List<MovieUserTicket> allRows = new ArrayList<>();
+		allRows = (List<MovieUserTicket>) ticketRepository.findAll();
+		
+		for (int i=0; i<allRows.size();i++) {
+			if(allRows.get(i).getMovie().getId() == idmovie)
+				movieRows.add(allRows.get(i));
+		}
+		
+		for (int i=0; i<movieRows.size();i++) {
+			if(movieRows.get(i).getUser().getId() == iduser)
+				userMovieRows.add(allRows.get(i));
+		}
+		
+		return userMovieRows;
+	}
 	
 
 

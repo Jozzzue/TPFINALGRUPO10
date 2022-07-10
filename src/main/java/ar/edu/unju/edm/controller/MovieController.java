@@ -35,7 +35,7 @@ public class MovieController {
 	IMovieService movieService;
 	
 	// cargar peliculas
-	@GetMapping("/anotherMovie")
+	@GetMapping("/addMovie")
 	public ModelAndView addMovie() {
 		LOGGER.info("ingresando al metodo: addMovie");
 		ModelAndView view = new ModelAndView("uploadmovies");

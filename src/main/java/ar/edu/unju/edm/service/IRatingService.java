@@ -18,4 +18,5 @@ public interface IRatingService {
 	public Rating findRating(Integer id) throws Exception; // no aplica
 	public List<Rating> findByMovieId(Integer id);
 	public List<Rating> findByUserId(Integer id);
+	public Rating findByUserMovieId(Integer iduser,Integer idmovie);
 }

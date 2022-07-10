@@ -15,4 +15,6 @@ public interface IMovieUserTicketService {
 	public List<MovieUserTicket> showTickets(); 
 	public MovieUserTicket findTicket(Integer id) throws Exception; // no aplica
 	public List<MovieUserTicket> findByUserId(Uzer user);
+	public List<MovieUserTicket> findByUserMovieId(Integer iduser, Integer idmovie);
+	
 }

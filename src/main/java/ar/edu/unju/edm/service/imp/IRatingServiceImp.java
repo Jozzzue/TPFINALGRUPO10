@@ -72,6 +72,21 @@ public class IRatingServiceImp implements IRatingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Rating findByUserMovieId(Integer iduser, Integer idmovie) {
+		// TODO Auto-generated method stub
+		Rating ratingfound = new Rating();
+		ratingfound.setValue(0);
+		List<Rating> aux = new ArrayList<>();
+		aux = (List<Rating>) ratingRepository.findAll();
+		for (int i=0; i<aux.size();i++) {
+			if(aux.get(i).getMovie().getId() == iduser && aux.get(i).getUser().getId()==idmovie)
+				ratingfound=aux.get(i);
+		}
+		
+		return ratingfound;
+	}
 	
 	
 	
