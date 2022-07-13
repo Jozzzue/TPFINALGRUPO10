@@ -6,6 +6,7 @@ package ar.edu.unju.edm.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 //import javax.validation.constraints.Max;
 //import javax.validation.constraints.Min;
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -33,11 +35,11 @@ public class MovieUser {
 	@Column(name="movie_user_id")
 	private Integer id;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "movie_id")
     private Movie movie;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
     private Uzer user;
 	
@@ -47,6 +49,8 @@ public class MovieUser {
 	
 	
 	//cantidad de tickets del usuario
+	@Min(value=1, message="El minimo de tickets es 1")
+	@Max(value=3, message="El maximo de tickets es 3")
 	private Integer tickets;
 	
 	//fecha y hora de comentario 

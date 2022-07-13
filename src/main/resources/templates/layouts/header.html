@@ -14,11 +14,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <a href="/" class="nameGroup">Grupo 10</a>
     <ul>
    <!-- sec hasRole no esta funcionando -->
-    <li sec:authorize="isAuthenticated()"><a th:href="@{addUser}" sec:authorize="hasRole('NORMAL')">Añadir Usuario</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{listUsers}" sec:authorize="hasRole('ADMIN')">Listar Usuarios</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{addMovie}"  sec:authorize="hasRole('ADMIN')">Añadir Peliculas</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{listMovies}" sec:authorize="hasRole('ADMIN')">Listar Peliculas</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{listMovies2}" >Listar Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addUser}" >Añadir Usuario</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listUsers}" >Listar Usuarios</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addMovie}" >Añadir Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies}">Listar Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies2}" >Listar Peliculas</a></li>
 	      
 	   
        <li class="nav-item" sec:authorize="!isAuthenticated()">

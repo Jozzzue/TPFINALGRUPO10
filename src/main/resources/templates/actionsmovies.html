@@ -57,6 +57,7 @@
 							<div class="card-footer bg-transparent">
 								<a th:if="${purchaseLimit == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'">Comprar Entrada</a> 
 								<a th:if="${wasRated == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar2(\''+${movie.id}+'\');'">Enviar Valoracion</a>
+								<div  th:if="${movie.averageRating != 0}" class="card-text" th:text="'Promedio de Valoración: '+${movie.averageRating}"></div>
 							</div>
 						</div>
 					</div>
@@ -64,6 +65,7 @@
 </div>
 	</div>
 
+<!-- COMENTARIOS-->
 	<div class="row comentarios justify-content-center">
 		<div class="col-6">
 			<form th:object="${movieUser}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}+'/'+${wasRated}+'/'+${purchaseLimit}" method="post">
@@ -74,14 +76,16 @@
 				<div class="media-body">
 					<div class="nombre">
 						<span th:text="${com.commentDate}"></span>
-						<p th:text="${com.user.name}"></p>
+						<div th:text="${com.user.name}"></div>
 					</div>
 				
-				<p class="comentario" th:text="${com.commentContent}"></p>
+				<div class="comentario" th:text="${com.commentContent}"></div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
 	<!-- MODAL COMPRAR Usuario funciona con JS-->
 	<div class="modal fade show row modal-dismissible" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">

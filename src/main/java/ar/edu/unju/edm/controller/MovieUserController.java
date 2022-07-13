@@ -86,6 +86,8 @@ public class MovieUserController {
 			
 			movieUsertoSave.setCommentDate(aux);
 			
+			LOGGER.info("ingresando al metodo: saveComment "+ movieUsertoSave.getCommentDate()+" "+aux );
+			
 			try {
 				movieUserService.saveMovieUser(movieUsertoSave);
 			}

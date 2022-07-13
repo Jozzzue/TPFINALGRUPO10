@@ -35,13 +35,13 @@
 
 		<tbody>
 			<tr class="text-center" th:each="ticket:${ticketss}">
-				<td th:text="${ticket.id}"></td>
-				<td th:text="${ticket.movie.name}"></td>
-				<td th:text="${ticket.movie.premiere}"></td>
-				<td th:text="${ticket.saledate}"></td>
-				<td th:text="${ticket.tickets}"></td>
-				<td th:text="${ticket.movie.hall}"></td>
-				<td th:text="${ticket.movie.schedule}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.id}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.movie.name}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.movie.premiere}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.saledate}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.tickets}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.movie.hall}"></td>
+				<td th:if="${ticket.tickets}!= 0" th:text="${ticket.movie.schedule}"></td>
 			</tr>
 		</tbody>
 	</table>
