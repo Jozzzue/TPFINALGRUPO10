@@ -64,7 +64,8 @@
 		<div class="grupo mb-3" th:if="${editMode == false}">
 			<label	class="form-check-label" for="gridRadios3">NORMAL</label>
 			<input class="form-check-input form-check-inline" type="radio" id="gridRadios3" value="NORMAL" th:field="*{type}" checked> 
-													
+		</div>
+		<div class="grupo mb-3" th:if="${editMode == false}">											
 			<label	class="form-check-label" for="gridRadios2">ADMIN</label>
 			<input class="form-check-input form-check-inline" type="radio" id="gridRadios2" value="ADMIN" th:field="*{type}">
 			<div class="alert alert-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>

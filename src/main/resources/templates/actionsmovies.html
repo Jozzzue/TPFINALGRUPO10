@@ -77,9 +77,10 @@
 			</form>
 			<div class="media" th:each="com:${commentsRatings}" th:if="${commentsRatings.size() != 0}" >
 				<div class="media-body">
+				<center><h5>Comentario</h5></center>
 					<div class="nombre">
-						<span th:text="${com.commentDate}"></span>
-						<div th:text="${com.user.name}"></div>
+						<center><span th:text="${com.commentDate}"></span></center>
+						<center><div th:text="${com.user.name}"></div></center>
 					</div>
 				
 				<div class="comentario" th:text="${com.commentContent}"></div>

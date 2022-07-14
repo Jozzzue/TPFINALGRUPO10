@@ -32,7 +32,7 @@
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{status}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{id}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{image}">
-		<h1>Registro</h1>
+		<h1>Formulario</h1>
 		
 		<div class="grupo mb-3">
 			<label for="nameID" class="form-label">Nombre:</label> 
@@ -42,7 +42,7 @@
 		<div class="grupo mb-3">
 			<label for="genreID" class="form-label">Genero:</label>
 			<div id="genreID">
-				 <div class="form-check form-check-inline">
+				 <div class="grupo form-check form-check-inline">
 				  <input th:field="*{genres}" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="horror">
 				  <label class="form-check-label" for="inlineCheckbox1">Terror</label>
 				</div>
@@ -51,17 +51,18 @@
 				  <label class="form-check-label" for="inlineCheckbox2">Amor</label>
 				</div>
 				<div class="grupo form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="comedia" th:field="*{genres}">
-				  <label class="form-check-label" for="inlineCheckbox2">Comedia</label>
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="comedia" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox3">Comedia</label>
 				</div>
 				<div class="grupo form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="accion" th:field="*{genres}">
-				  <label class="form-check-label" for="inlineCheckbox2">Accion</label>
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="accion" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox4">Accion</label>
 				</div>
 				<div class="grupo form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="aventuras" th:field="*{genres}">
-				  <label class="form-check-label" for="inlineCheckbox2">Aventuras</label>
+				  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="aventuras" th:field="*{genres}">
+				  <label class="form-check-label" for="inlineCheckbox5">Aventuras</label>
 				</div>
+				<div class="alert alert-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
 			</div>
 			
 		</div>

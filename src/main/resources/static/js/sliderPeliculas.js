@@ -1,25 +1,25 @@
 let slide_data = [
   {
     src:
-  "https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/mejores-peliculas-cine-accion/kingsman-servicio-secreto/132087893-1-esl-ES/Kingsman-Servicio-secreto.jpg?resize=980:*",
+  "https://www.teahub.io/photos/full/257-2575364_1080p-movie-wallpapers-free-download-hd-desktop-wallpapers.jpg",
     title: "Acción",
     copy: "DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT."
   },
   {
     src:
-      "https://marketingdesdecero.com/wp-content/uploads/2020/09/mejores-peliculas-de-comedia.jpg",
+      "https://wallpaperaccess.com/full/2619797.jpg",
     title: "Comedia",
     copy: "DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT."
   },
   {
     src:
-      "https://www.lifeder.com/wp-content/uploads/2016/07/peliculas-aventuras.jpg",
+      "https://www.septimacaja.com/wp-content/uploads/dunkirk-2017-movie-4k.jpg",
     title: "Aventuras",
     copy: "DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT."
   },
   {
     src:
-      "https://as01.epimg.net/meristation/imagenes/2022/01/10/reportajes/1641814953_137227_1641895764_portada_normal.jpg",
+      "https://images2.alphacoders.com/863/thumb-1920-863789.jpg",
     title: "Terror",
     copy: "DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT."
   }
