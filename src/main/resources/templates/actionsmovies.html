@@ -31,33 +31,33 @@
 		<div class="card mb-3" style="max-width: 1000px;" >
 		  <div class="row g-0">
 				    <div class="col-md-4">
-				      <img th:src="${'data:image/png;base64,'+movie.image}"  class=" img-fluid" style="width:100%; height:100%;">
+				      <img th:src="${'data:image/png;base64,'+moviefound.image}"  class=" img-fluid" style="width:100%; height:100%;">
 				    </div>
 					<div class="col-md-8">
 						<div class="card-body">
-							<h3 class="card-title" th:text="${movie.id}"></h3>
-							<h5 class="card-title" th:text="${movie.name}"></h5>
+							<h3 class="card-title" th:text="${moviefound.id}"></h3>
+							<h5 class="card-title" th:text="${moviefound.name}"></h5>
 							
-							<p class="card-text" th:text="${movie.description}"></p>
+							<p class="card-text" th:text="${moviefound.description}"></p>
 							<p class="card-text">
-								<small class="text-muted" th:text="${movie.lenght}"></small>
+								<small class="text-muted" th:text="${moviefound.lenght}"></small>
 							</p>
 							<p class="card-text">
-								<small class="text-muted" th:text="${movie.premiere}"></small>
+								<small class="text-muted" th:text="${moviefound.premiere}"></small>
 							</p>
 							<p class="card-text">
-								<small class="text-muted" th:text="${movie.genres}"></small>
+								<small class="text-muted" th:text="${moviefound.genres}"></small>
 							</p>
 							<p class="card-text">
-								<small class="text-muted" th:text="${movie.hall}"></small>
+								<small class="text-muted" th:text="${moviefound.hall}"></small>
 							</p>
 							<p class="card-text">
-								<small class="text-muted" th:text="${movie.schedule}"></small>
+								<small class="text-muted" th:text="${moviefound.schedule}"></small>
 							</p>
 							<div class="card-footer bg-transparent">
-								<a th:if="${purchaseLimit == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'">Comprar Entrada</a> 
-								<a th:if="${wasRated == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar2(\''+${movie.id}+'\');'">Enviar Valoracion</a>
-								<div  th:if="${movie.averageRating != 0}" class="card-text" th:text="'Promedio de Valoración: '+${movie.averageRating}"></div>
+								<a th:if="${purchaseLimit == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${moviefound.id}+'\');'">Comprar Entrada</a> 
+								<a th:if="${wasRated == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar2(\''+${moviefound.id}+'\');'">Enviar Valoracion</a>
+								<div  th:if="${moviefound.averageRating != 0}" class="card-text" th:text="'Promedio de Valoración: '+${moviefound.averageRating}"></div>
 							</div>
 						</div>
 					</div>
@@ -68,7 +68,7 @@
 <!-- COMENTARIOS-->
 	<div class="row comentarios justify-content-center">
 		<div class="col-6">
-			<form th:if="${wasCommented == false}" th:object="${movieUser}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">
+			<form th:if="${wasCommented == false}" th:object="${movieUser}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${moviefound.id}" method="post">
 			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
 			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
 			<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
@@ -98,7 +98,7 @@
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body"><h6></h6>
-										<form th:object="${movieUser}" th:action="@{/saveTicket/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">		
+										<form th:object="${movieUser}" th:action="@{/saveTicket/}+${#authentication.getPrincipal().getUsername()}+'/'+${moviefound.id}" method="post">		
 										<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
 										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">
 										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentContent}">
@@ -125,7 +125,7 @@
 										</div>
 										<div class="modal-body">
 										<div class="container">
-										<form th:object="${movieUser}" th:action="@{/saveRating/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post"  class="rate">		
+										<form th:object="${movieUser}" th:action="@{/saveRating/}+${#authentication.getPrincipal().getUsername()}+'/'+${moviefound.id}" method="post"  class="rate">		
 												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
 												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
 												<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">

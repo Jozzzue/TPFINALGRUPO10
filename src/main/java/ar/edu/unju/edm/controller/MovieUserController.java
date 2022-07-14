@@ -89,7 +89,7 @@ public class MovieUserController {
 			
 			movieUsertoSave.setCommentDate(aux);
 			
-			LOGGER.info("ingresando al metodo: saveComment "+ movieUsertoSave.getCommentDate()+" "+aux );
+			LOGGER.error("ingresando al metodo: saveComment "+ movieUsertoSave.getCommentDate()+" "+aux );
 			
 			try {
 				movieUserService.saveMovieUser(movieUsertoSave);
@@ -115,8 +115,8 @@ public class MovieUserController {
 				
 				view.addObject("movieUser",specificMovieUser);
 				view.addObject("commentsRatings", commentsRatings);
-				view.addObject("user", user);
-			    view.addObject("movie", movie);
+				view.addObject("userfound", user);
+			    view.addObject("moviefound", movie);
 			    
 			    if(specificMovieUser.getTickets() == 0)
 			    	view.addObject("hasTickets", false);
@@ -236,8 +236,8 @@ public class MovieUserController {
 			
 			view.addObject("movieUser",specificMovieUser);
 			view.addObject("commentsRatings", commentsRatings);
-			view.addObject("user", user);
-		    view.addObject("movie", movie);
+			view.addObject("userfound", user);
+		    view.addObject("moviefound", movie);
 		    
 		    if(specificMovieUser.getTickets() == 0  )
 		    	view.addObject("hasTickets", false);
@@ -351,8 +351,8 @@ public class MovieUserController {
 		//enviar objetos
 			view.addObject("movieUser",specificMovieUser);
 			view.addObject("commentsRatings", commentsRatings);
-			view.addObject("user", user);
-		    view.addObject("movie", movie);
+			view.addObject("userfound", user);
+		    view.addObject("moviefound", movie);
 			
 		return view;
 
@@ -407,13 +407,16 @@ public class MovieUserController {
 			view.addObject("formMovieUserMessage", e.getMessage());
 		}
 		
+		LOGGER.error("ingresando al metodo: seeOptions "+ userfound.getName() + " " +moviefound.getName());
 		
 	// devolver una lista movieUser de la pelicula, que tendra la lista de comentarios y de valoraciones, entre otras cosas
 		
 		List<MovieUser> commentsRatings = new ArrayList<>();
 		commentsRatings = movieUserService.findByMovieId(moviefound.getId());
-		
-	/*	devolver una lista movieUser de la pelicula y el usuario, 
+		if(commentsRatings.size() != 0)
+		LOGGER.error("ingresando al metodo: seeOptions "+ commentsRatings.get(0).getCommentContent() + " " + commentsRatings.get(0).getRating());
+	
+		/*	devolver una lista movieUser de la pelicula y el usuario, 
 	Que tendra los comentarios del usuario sobre pelicula, ()
 	La valoracion del usuario sobre la pelicula (debe ser una sola o ninguna)
 	Y tambien la cantidad de tickets del usuario(maximo 3, minimo 0)	*/
@@ -421,19 +424,22 @@ public class MovieUserController {
 		MovieUser specificMovieUser = new MovieUser();
 		specificMovieUser = movieUserService.findByMovieUserId(userfound.getId(), moviefound.getId());
 		
+		LOGGER.error("ingresando al metodo: seeOptions "+ /*specificMovieUser.getUser().getId() + " " +specificMovieUser.getMovie().getId()+*/" "+specificMovieUser.getCommentContent());
+		
 		
 	//Retornar a la vista las listas, usuario, pelicula y nueva MovieUser
 		
-		if(specificMovieUser.getRating()==0 && specificMovieUser.getTickets()==0 && specificMovieUser.getCommentContent()==null)
-			view.addObject("movieUser", newMovieUser);
-		else
-			view.addObject("movieUser",specificMovieUser);
+		if(specificMovieUser.getRating()==0 && specificMovieUser.getTickets()==0 && specificMovieUser.getCommentContent()==null) {
+			view.addObject("movieUser", newMovieUser); LOGGER.error("ingresando al metodo: seeOptions newMovieUser");
+		}else {
+			view.addObject("movieUser",specificMovieUser); LOGGER.error("ingresando al metodo: seeOptions specificMovieUser");
+			}
 		
 		
 		
 		view.addObject("commentsRatings", commentsRatings);
-		view.addObject("user", userfound);
-	    view.addObject("movie", moviefound);
+		view.addObject("userfound", userfound);
+	    view.addObject("moviefound", moviefound);
 	    
 	    
 	/*	agregar variables banderas para no visualizar objetos indebidos

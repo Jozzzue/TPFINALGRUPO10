@@ -73,7 +73,6 @@ public class IMovieUserTicketImp implements IMovieUserService {
 		List<MovieUser> movieRows = new ArrayList<>();
 		List<MovieUser> aux = new ArrayList<>();
 		aux = (List<MovieUser>) movieUserRepository.findAll();
-		if(aux.size()!=0)
 		for (int i=0; i<aux.size();i++) {
 			if( id.equals((aux).get(i).getMovie().getId()))
 				movieRows.add(aux.get(i));
@@ -88,7 +87,6 @@ public class IMovieUserTicketImp implements IMovieUserService {
 		MovieUser userMovieRow = new MovieUser();
 		List<MovieUser> allRows = new ArrayList<>();
 		allRows = (List<MovieUser>) movieUserRepository.findAll();
-		if(allRows.size()!=0)
 		for (int i=0; i<allRows.size();i++) {
 			if(idUser.equals(allRows.get(i).getUser().getId()) && idMovie.equals(allRows.get(i).getMovie().getId() ))
 				userMovieRow = allRows.get(i);
