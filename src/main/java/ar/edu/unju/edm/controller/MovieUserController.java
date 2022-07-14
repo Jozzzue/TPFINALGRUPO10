@@ -54,9 +54,10 @@ public class MovieUserController {
 	
 	
 	//guardar valoracion
-		@PostMapping(value="/saveComment/{dni}/{id}/{wasRated}/{purchaseLimit}")
-		public ModelAndView saveComment(@ModelAttribute ("movieUser") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id,  @PathVariable(name="wasRated") String wasRated, @PathVariable(name="purchaseLimit") String purchaseLimit) {
+		@PostMapping(value="/saveComment/{dni}/{id}")
+		public ModelAndView saveComment(@ModelAttribute ("movieUser") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 			ModelAndView view = new ModelAndView("actionsmovies");
+		//encuentro usuario y pelicula
 			Movie movie = new Movie();
 			Uzer user = new Uzer();
 			try {
@@ -71,16 +72,18 @@ public class MovieUserController {
 			}catch(Exception e) {
 				view.addObject("formMovieUserMessage", e.getMessage());
 			}
-			LOGGER.info("ingresando al metodo: saveComment "+ purchaseLimit+" "+wasRated);
+			
 			LOGGER.info("ingresando al metodo: saveComment "+ movie.getDescription()+" "+user.getLastname());
 			
 			
-			List<MovieUser> specificMovieUser = new ArrayList<>();
-			specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
 			
-			movieUsertoSave.setMovie(movie);
-			movieUsertoSave.setUser(user);
 			
+			//if(movieUsertoSave.getRating()==0 && movieUsertoSave.getTickets()==0) {
+					movieUsertoSave.setUser(user);
+					movieUsertoSave.setMovie(movie);
+			//}
+			
+		// seteo fecha y guardo
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			String aux = dtf.format(LocalDateTime.now());
 			
@@ -95,27 +98,45 @@ public class MovieUserController {
 				view.addObject("formMovieUserMessage", e.getMessage());
 			}
 			
-			   
+			LOGGER.error("saliendo del metodo: saveComment "+ movieUsertoSave.getRating()+" "+movieUsertoSave.getTickets());
+			// encuentra fila de usuario y pelicula
+			MovieUser specificMovieUser = new MovieUser();
+			specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+			
+			LOGGER.error("saliendo del metodo: saveComment "+ movieUsertoSave.getRating()+" "+movieUsertoSave.getTickets());
+			
+			LOGGER.error("saliendo del metodo: saveComment "+ specificMovieUser.getRating()+" "+specificMovieUser.getTickets()+" "+specificMovieUser.getCommentDate());
+			
+		//lista de comentarios de pelicula
 			List<MovieUser> commentsRatings = new ArrayList<>();
 			commentsRatings = movieUserService.findByMovieId(movie.getId());
 
+			
 				
-				
-				if(purchaseLimit.equals("false"))
+				view.addObject("movieUser",specificMovieUser);
+				view.addObject("commentsRatings", commentsRatings);
+				view.addObject("user", user);
+			    view.addObject("movie", movie);
+			    
+			    if(specificMovieUser.getTickets() == 0)
+			    	view.addObject("hasTickets", false);
+			    else
+			    	view.addObject("hasTickets", true);
+			    
+			    if(specificMovieUser.getTickets() < 3)
 			    	view.addObject("purchaseLimit", false);
 			    else
 			    	view.addObject("purchaseLimit", true);
 			    
-				if(wasRated.equals("false"))
+			    if(specificMovieUser.getRating() == 0)
 			    	view.addObject("wasRated", false);
 			    else
 			    	view.addObject("wasRated", true);
-				
-				view.addObject("specificMovieUser",specificMovieUser);
-				view.addObject("commentsRatings", commentsRatings);
-				view.addObject("user", user);
-			    view.addObject("movie", movie);
-			    view.addObject("movieUser", newMovieUser);
+			    
+			    if(specificMovieUser.getCommentContent() == null)
+			    	view.addObject("wasCommented", false);
+			    else
+			    	view.addObject("wasCommented", true);
 				
 			return view;
 
@@ -125,9 +146,10 @@ public class MovieUserController {
 	
 	
 	//guardar valoracion
-	@PostMapping(value="/saveRating/{dni}/{id}/{wasRated}/{purchaseLimit}")
-	public ModelAndView saveRating(@ModelAttribute ("movieUser") MovieUser movieUsertoSave, @PathVariable(name="dni") int dni, @PathVariable(name="id") int id, @PathVariable(name="wasRated") String wasRated, @PathVariable(name="purchaseLimit") String purchaseLimit) {
+	@PostMapping(value="/saveRating/{dni}/{id}")
+	public ModelAndView saveRating(@ModelAttribute ("movieUser") MovieUser movieUsertoSave, @PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 		ModelAndView view = new ModelAndView("actionsmovies");
+	//busqueda usuario y pelicula	
 		Movie movie = new Movie();
 		Uzer user = new Uzer();
 		try {
@@ -142,14 +164,17 @@ public class MovieUserController {
 		}catch(Exception e) {
 			view.addObject("formMovieUserMessage", e.getMessage());
 		}
-		LOGGER.info("ingresando al metodo: saveRating "+ movie.getDescription()+" "+user.getLastname());
+		LOGGER.error("ingresando al metodo: saveRating "+ movie.getDescription()+" "+user.getLastname());
 		
-		
-		List<MovieUser> specificMovieUser = new ArrayList<>();
-		specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
-		
-		movieUsertoSave.setMovie(movie);
-		movieUsertoSave.setUser(user);
+	//	if(movieUsertoSave.getTickets()==0 && movieUsertoSave.getCommentContent()==null) {
+			movieUsertoSave.setUser(user);
+			movieUsertoSave.setMovie(movie);
+		//}
+			
+	
+				LOGGER.error("ingresando al metodo: saveRating "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getTickets());
+	//guardo rating
+			
 		
 		try {
 			movieUserService.saveMovieUser(movieUsertoSave);
@@ -158,19 +183,30 @@ public class MovieUserController {
 			view.addObject("formMovieUserMessage", e.getMessage());
 		}
 		
-		   
+		LOGGER.error("ingresando al metodo: saveRating "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getTickets());
+		
+		// encuentra fila de usuario y pelicula
+		MovieUser specificMovieUser = new MovieUser();
+		specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+		//lista de comentarios
 		    List<MovieUser> commentsRatings = new ArrayList<>();
 			commentsRatings = movieUserService.findByMovieId(movie.getId());
 		
+		// para setear el promedio general en la pelicula	
 			int length = commentsRatings.size(), sumRatings=0 , aux=0;
 			
 			if(length!=0) {
-				wasRated="true";
 				for(int i=0;i<length;i++)
 					sumRatings = commentsRatings.get(i).getRating() + sumRatings;		
 			
 				aux = (int) ((100 * sumRatings)/(length*5)); 
 				movie.setAverageRating(aux);
+				try {
+					movieService.saveMovie(movie);
+				}
+				catch (Exception e) {
+					view.addObject("formMovieUserMessage", e.getMessage());
+				}
 			}
 			
 			if(aux==0)
@@ -196,21 +232,33 @@ public class MovieUserController {
 			}
 			
 			
-			if(purchaseLimit.equals("false"))
+			
+			
+			view.addObject("movieUser",specificMovieUser);
+			view.addObject("commentsRatings", commentsRatings);
+			view.addObject("user", user);
+		    view.addObject("movie", movie);
+		    
+		    if(specificMovieUser.getTickets() == 0  )
+		    	view.addObject("hasTickets", false);
+		    else
+		    	view.addObject("hasTickets", true);
+		    
+		    if(specificMovieUser.getTickets() < 3)
 		    	view.addObject("purchaseLimit", false);
 		    else
 		    	view.addObject("purchaseLimit", true);
 		    
-			if(wasRated.equals("false"))
+		    if(specificMovieUser.getRating() == 0)
 		    	view.addObject("wasRated", false);
 		    else
 		    	view.addObject("wasRated", true);
-			
-			view.addObject("specificMovieUser",specificMovieUser);
-			view.addObject("commentsRatings", commentsRatings);
-			view.addObject("user", user);
-		    view.addObject("movie", movie);
-		    view.addObject("movieUser", newMovieUser);
+		    
+		    if(specificMovieUser.getCommentContent() == null)
+		    	view.addObject("wasCommented", false);
+		    else
+		    	view.addObject("wasCommented", true);
+		    
 			
 		return view;
 
@@ -225,6 +273,7 @@ public class MovieUserController {
 	@PostMapping(value="/saveTicket/{dni}/{id}")
 	public ModelAndView saveTicket(@ModelAttribute ("movieUser") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 		ModelAndView view = new ModelAndView("actionsmovies");
+	// busco pelicula y usuario
 		Movie movie = new Movie();
 		Uzer user = new Uzer();
 		try {
@@ -239,28 +288,22 @@ public class MovieUserController {
 		}catch(Exception e) {
 			view.addObject("formMovieUserMessage", e.getMessage());
 		}
-		LOGGER.info("ingresando al metodo: saveTicket "+ movieUsertoSave.getTickets());
+		LOGGER.error("ingresando al metodo: saveTicket "+ movieUsertoSave.getTickets()+" "+user.getDni()+" "+movie.getName());
+		
+	
 		
 		
-		List<MovieUser> specificMovieUser = new ArrayList<>();
-		specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
-		
-		LOGGER.info("ingresando al metodo: saveTicket "+ movie.getDescription()+" "+user.getLastname());
-		
-		 int sumTickets = 0,totalTickets=movieUsertoSave.getTickets();
-		 boolean wasRated = false; 
-		 if(specificMovieUser.size()!=0) {
-		    for(int i=0;i<specificMovieUser.size();i++) {
-		    	sumTickets = specificMovieUser.get(i).getTickets() + sumTickets;
-		    	if(specificMovieUser.get(i).getRating() > 0)
-		    		wasRated = true;
-		    }
-		    
-		 }   
-		    
+		LOGGER.error("ingresando al metodo: saveTicket "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getRating()+" "+movieUsertoSave.getCommentContent());
+	
+	// proceso de guardar ticket y controlar q no sea mayor q 3	
+		 int totalTickets=movieUsertoSave.getTickets();
+		       
 		    if(totalTickets<=3) {
-		    	movieUsertoSave.setMovie(movie);
-		    	movieUsertoSave.setUser(user);
+		    
+		    	//if(movieUsertoSave.getRating()==0  && movieUsertoSave.getCommentContent()==null) {
+					movieUsertoSave.setUser(user);
+					movieUsertoSave.setMovie(movie);
+				//}
 		    	LocalDate actualDate = LocalDate.now();
 				movieUsertoSave.setSaledate(actualDate);
 		    	movieUsertoSave.setTickets(totalTickets);
@@ -275,21 +318,41 @@ public class MovieUserController {
 		    }else
 		    	view.addObject("formMovieUserMessage", "Limite de boletos alcanzados");
 		
+		 // encuentra fila de usuario y pelicula
+			MovieUser specificMovieUser = new MovieUser();
+			specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+	//enviar lista de comentarios 
 		    List<MovieUser> commentsRatings = new ArrayList<>();
 			commentsRatings = movieUserService.findByMovieId(movie.getId());
-		
-			if(sumTickets < 3)
-		    	view.addObject("purchaseLimit", false);
-		    else
-		    	view.addObject("purchaseLimit", true);
-		    	
-		    view.addObject("wasRated",wasRated);
-		
-			view.addObject("specificMovieUser",specificMovieUser);
+	
+			
+		//enviar banderas
+			   if(specificMovieUser.getTickets() == 0  )
+			    	view.addObject("hasTickets", false);
+			    else
+			    	view.addObject("hasTickets", true);
+			    
+			   if(specificMovieUser.getTickets() < 3)
+			    	view.addObject("purchaseLimit", false);
+			    else
+			    	view.addObject("purchaseLimit", true);
+			   
+			    if(specificMovieUser.getRating() == 0)
+			    	view.addObject("wasRated", false);
+			    else
+			    	view.addObject("wasRated", true);
+			    
+			    if(specificMovieUser.getCommentContent() == null)
+			    	view.addObject("wasCommented", false);
+			    else
+			    	view.addObject("wasCommented", true);
+			    	
+
+		//enviar objetos
+			view.addObject("movieUser",specificMovieUser);
 			view.addObject("commentsRatings", commentsRatings);
 			view.addObject("user", user);
 		    view.addObject("movie", movie);
-		    view.addObject("movieUser", newMovieUser);
 			
 		return view;
 
@@ -351,40 +414,56 @@ public class MovieUserController {
 		commentsRatings = movieUserService.findByMovieId(moviefound.getId());
 		
 	/*	devolver una lista movieUser de la pelicula y el usuario, 
-	Que tendra los comentarios del usuario sobre pelicula, (pueden ser muchos o ningunos)
+	Que tendra los comentarios del usuario sobre pelicula, ()
 	La valoracion del usuario sobre la pelicula (debe ser una sola o ninguna)
 	Y tambien la cantidad de tickets del usuario(maximo 3, minimo 0)	*/
 
-		List<MovieUser> specificMovieUser = new ArrayList<>();
+		MovieUser specificMovieUser = new MovieUser();
 		specificMovieUser = movieUserService.findByMovieUserId(userfound.getId(), moviefound.getId());
 		
 		
 	//Retornar a la vista las listas, usuario, pelicula y nueva MovieUser
 		
-		view.addObject("specificMovieUser",specificMovieUser);
+		if(specificMovieUser.getRating()==0 && specificMovieUser.getTickets()==0 && specificMovieUser.getCommentContent()==null)
+			view.addObject("movieUser", newMovieUser);
+		else
+			view.addObject("movieUser",specificMovieUser);
+		
+		
+		
 		view.addObject("commentsRatings", commentsRatings);
 		view.addObject("user", userfound);
 	    view.addObject("movie", moviefound);
-	    view.addObject("movieUser", newMovieUser);
+	    
 	    
 	/*	agregar variables banderas para no visualizar objetos indebidos
 	 Bandera q controle q no se supere la cantidad de 3 boletos
 	 Bandera q controle q solo tenga 1 valoracion 	*/
 
-	    int sumTickets = 0;
-	    boolean wasRated = false;
-	    for(int i=0;i<specificMovieUser.size();i++) {
-	    	sumTickets = specificMovieUser.get(i).getTickets() + sumTickets;
-	    	if(specificMovieUser.get(i).getRating() > 0)
-	    		wasRated = true;
-	    }
 	    
-	    if(sumTickets < 3)
+	    
+	    if(specificMovieUser.getTickets() == 0)
+	    	view.addObject("hasTickets", false);
+	    else
+	    	view.addObject("hasTickets", true);
+	    
+	    if(specificMovieUser.getTickets() < 3)
 	    	view.addObject("purchaseLimit", false);
 	    else
 	    	view.addObject("purchaseLimit", true);
+	    
+	    if(specificMovieUser.getRating() == 0)
+	    	view.addObject("wasRated", false);
+	    else
+	    	view.addObject("wasRated", true);
+	    
+	    if(specificMovieUser.getCommentContent() == null)
+	    	view.addObject("wasCommented", false);
+	    else
+	    	view.addObject("wasCommented", true);
 	    	
-	    view.addObject("wasRated",wasRated);
+	    
+	 
 	    
 	    LOGGER.error("saliendo del metodo: seeOptions "+ moviefound.getName() + " " +userfound.getLastname());
 

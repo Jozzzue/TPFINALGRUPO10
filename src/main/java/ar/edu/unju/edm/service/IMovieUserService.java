@@ -16,5 +16,5 @@ public interface IMovieUserService {
 	public MovieUser findMovieUser(Integer id) throws Exception; 	// no aplica
 	public List<MovieUser> findByUserId(Integer id);
 	public List<MovieUser> findByMovieId(Integer id);
-	public List<MovieUser> findByMovieUserId(Integer idUser, Integer idMovie);
+	public MovieUser findByMovieUserId(Integer idUser, Integer idMovie);
 }

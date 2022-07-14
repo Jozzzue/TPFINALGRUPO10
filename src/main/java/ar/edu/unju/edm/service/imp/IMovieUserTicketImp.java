@@ -73,8 +73,9 @@ public class IMovieUserTicketImp implements IMovieUserService {
 		List<MovieUser> movieRows = new ArrayList<>();
 		List<MovieUser> aux = new ArrayList<>();
 		aux = (List<MovieUser>) movieUserRepository.findAll();
+		if(aux.size()!=0)
 		for (int i=0; i<aux.size();i++) {
-			if(aux.get(i).getMovie().getId() == id)
+			if( id.equals((aux).get(i).getMovie().getId()))
 				movieRows.add(aux.get(i));
 		}
 		
@@ -82,24 +83,19 @@ public class IMovieUserTicketImp implements IMovieUserService {
 	}
 
 	@Override
-	public List<MovieUser> findByMovieUserId(Integer idUser, Integer idMovie) {
+	public MovieUser findByMovieUserId(Integer idUser, Integer idMovie) {
 		// TODO Auto-generated method stub
-		List<MovieUser> movieRows = new ArrayList<>();
-		List<MovieUser> userMovieRows = new ArrayList<>();
+		MovieUser userMovieRow = new MovieUser();
 		List<MovieUser> allRows = new ArrayList<>();
 		allRows = (List<MovieUser>) movieUserRepository.findAll();
-		
+		if(allRows.size()!=0)
 		for (int i=0; i<allRows.size();i++) {
-			if(allRows.get(i).getMovie().getId() == idMovie)
-				movieRows.add(allRows.get(i));
+			if(idUser.equals(allRows.get(i).getUser().getId()) && idMovie.equals(allRows.get(i).getMovie().getId() ))
+				userMovieRow = allRows.get(i);
 		}
 		
-		for (int i=0; i<movieRows.size();i++) {
-			if(movieRows.get(i).getUser().getId() == idUser)
-				userMovieRows.add(allRows.get(i));
-		}
 		
-		return userMovieRows;
+		return userMovieRow;
 	}
 
 	
