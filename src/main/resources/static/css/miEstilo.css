@@ -148,6 +148,7 @@ background: linear-gradient(90deg, rgba(0,22,36,1) 0%, rgba(19,144,231,1) 28%, r
 	
 }
 
+
 /* Footer */
 ul {
     margin: 0px;
@@ -552,3 +553,43 @@ div.caption-subhead span{
 #menu input:checked ~ label:before{ content:"\025be";}
 #menu .interior{display: none;}
 #menu input:checked ~ ul{display:block;}
+
+
+
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+

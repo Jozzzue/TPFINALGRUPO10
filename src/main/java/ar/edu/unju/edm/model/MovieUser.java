@@ -6,6 +6,7 @@ package ar.edu.unju.edm.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,26 +19,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 //import javax.validation.constraints.Max;
 //import javax.validation.constraints.Min;
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name="tickets")
-public class MovieUserTicket {
+@Table(name="movie_user")
+public class MovieUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ticket_id")
+	@Column(name="movie_user_id")
 	private Integer id;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "movie_id")
     private Movie movie;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
     private Uzer user;
 	
@@ -45,11 +47,26 @@ public class MovieUserTicket {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate saledate;
 	
-	//@NotNull
-	//@Max(value=3, message="Maximo puede comprar 3 tickets")
-	//@Min(value=1, message="El minimo para comprar es 1 ticket")
+	
+	//cantidad de tickets del usuario
+	@Min(value=1, message="El minimo de tickets es 1")
+	@Max(value=3, message="El maximo de tickets es 3")
 	private Integer tickets;
+	
+	//fecha y hora de comentario 
+	private String commentDate;
+	 
+	//contenido del comentario
+	private String commentContent;
+	
+	//valoracion
+	private Integer rating;
 
+	
+	public MovieUser() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -83,11 +100,41 @@ public class MovieUserTicket {
 	}
 
 	public Integer getTickets() {
+		if(tickets==null)
+			return 0;
+		else
 		return tickets;
 	}
 
 	public void setTickets(Integer tickets) {
 		this.tickets = tickets;
+	}
+
+	public String getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(String commentDate) {
+		this.commentDate = commentDate;
+	}
+
+	public String getCommentContent() {
+		return commentContent;
+	}
+
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
+	}
+
+	public Integer getRating() {
+		if(rating==null)
+			return 0;
+		else
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 	
 	

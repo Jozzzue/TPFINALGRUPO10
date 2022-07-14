@@ -20,9 +20,9 @@
 <div class="body">
 	<div th:insert="/layouts/header :: header"></div>
 	
-	<div class="container" th:if="${formTicketMessage}">
+	<div class="container" th:if="${formMovieUserMessage}">
 	<div class="alert alert-success alert-dismissible fade show row" role="alert"  >
-		<label th:text="${formTicketMessage}"></label>  
+		<label th:text="${formMovieUserMessage}"></label>  
 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 	</div>
@@ -31,7 +31,7 @@
 		<div class="card mb-3" style="max-width: 1000px;" >
 		  <div class="row g-0">
 				    <div class="col-md-4">
-				      <img th:src="${'data:image/png;base64,'+movie.image}" alt="150x150" class=" circle rounded-start" >
+				      <img th:src="${'data:image/png;base64,'+movie.image}"  class=" img-fluid" style="width:100%; height:100%;">
 				    </div>
 					<div class="col-md-8">
 						<div class="card-body">
@@ -55,8 +55,9 @@
 								<small class="text-muted" th:text="${movie.schedule}"></small>
 							</p>
 							<div class="card-footer bg-transparent">
-								<a th:if="${wasBuyed == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'">Comprar Entrada</a> 
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+								<a th:if="${purchaseLimit == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'">Comprar Entrada</a> 
+								<a th:if="${wasRated == false}" class="btn btn-primary" th:onclick="'javascript:confirmarEliminar2(\''+${movie.id}+'\');'">Enviar Valoracion</a>
+								<div  th:if="${movie.averageRating != 0}" class="card-text" th:text="'Promedio de Valoración: '+${movie.averageRating}"></div>
 							</div>
 						</div>
 					</div>
@@ -64,25 +65,31 @@
 </div>
 	</div>
 
+<!-- COMENTARIOS-->
 	<div class="row comentarios justify-content-center">
 		<div class="col-6">
-			<form th:object="${comment}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${movie.id}+'/'+${#authentication.getPrincipal().getUsername()}" method="post">
-			<textarea class="form-control" th:field="*{content}" placeholder="comentario">	</textarea>
+			<form th:if="${wasCommented == false}" th:object="${movieUser}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">
+			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
+			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
+			<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
+			<textarea class="form-control" th:field="*{commentContent}" placeholder="comentario"></textarea>
 			<button class="btn" type="submit">Comentar</button>
 			</form>
-			<div class="media" th:each="com:${comments}" th:if="${comments.size() != 0}" >
+			<div class="media" th:each="com:${commentsRatings}" th:if="${commentsRatings.size() != 0}" >
 				<div class="media-body">
 					<div class="nombre">
-						<span th:text="${com.date}"></span>
-						<p th:text="${com.user.name}"></p>
+						<span th:text="${com.commentDate}"></span>
+						<div th:text="${com.user.name}"></div>
 					</div>
 				
-				<p class="comentario" th:text="${com.content}"></p>
+				<div class="comentario" th:text="${com.commentContent}"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- MODAL ELIMINAR Usuario funciona con JS-->
+	
+	
+	<!-- MODAL COMPRAR Usuario funciona con JS-->
 	<div class="modal fade show row modal-dismissible" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 									<div class="modal-content">
@@ -91,7 +98,10 @@
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body"><h6></h6>
-										<form th:object="${ticket}" th:action="@{/saveTicket/}+${movie.id}+'/'+${#authentication.getPrincipal().getUsername()}" method="post">		
+										<form th:object="${movieUser}" th:action="@{/saveTicket/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">		
+										<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
+										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">
+										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentContent}">
 										<label for="cantidadID" class="form-label">Cantidad:</label> 								
 										<input th:field="*{tickets}" class="form-control" type="number" max="3" min="1" id="cantidadID" />
 										
@@ -105,8 +115,67 @@
 									</div>
 								</div>
 							</div>
+		<!-- MODAL VALORACION Usuario funciona con JS-->
+	<div class="modal fade show row modal-dismissible" id="modalValorar" tabindex="-1" role="dialog" aria-labelledby="valorarModal" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="valorarModalTitulo">Enviar Valoracion</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+										<div class="container">
+										<form th:object="${movieUser}" th:action="@{/saveRating/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post"  class="rate">		
+												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
+												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
+												<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">
+												<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentContent}">
+													<input type="radio" id="star5" name="rate" value="5" th:field="*{rating}"/>
+												    <label for="star5" title="text">5 stars</label>
+												    <input type="radio" id="star4" name="rate" value="4" th:field="*{rating}" />
+												    <label for="star4" title="text">4 stars</label>
+												    <input type="radio" id="star3" name="rate" value="3" th:field="*{rating}" />
+												    <label for="star3" title="text">3 stars</label>
+												    <input type="radio" id="star2" name="rate" value="2" th:field="*{rating}"/>
+												    <label for="star2" title="text">2 stars</label>
+												    <input type="radio" id="star1" name="rate" value="1" th:field="*{rating}"/>
+												    <label for="star1" title="text">1 star</label>
+												    
+												    <div class="modal-footer">
+												    	<button type="submit" class="btn btn-primary">Valorar</button>
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>									
+														
+													</div> 	
+										</form>
+										</div>
+										
+										 		
+										</div>
+									</div>
+								</div>
+							</div>
 	<script type="text/javascript">
 		var exampleModal = document.getElementById('modalEliminar')
+		exampleModal.addEventListener('show.bs.modal', function(event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var recipient = button.getAttribute('data-bs-mail')
+			var recipient2 = button.getAttribute('data-bs-whatever')
+			// If necessary, you could initiate an AJAX request here
+			// and then do the updating in a callback.
+			//
+			// Update the modal's content.
+			var modalTitle = exampleModal.querySelector('.modal-title')
+			var modalBodyInput = exampleModal
+					.querySelector('.modal-body input')
+
+			modalTitle.textContent = 'Eliminar Usuario ' + recipient
+			modalBodyInput.value = recipient2
+		})
+	</script>
+	<script type="text/javascript">
+		var exampleModal = document.getElementById('modalValorar')
 		exampleModal.addEventListener('show.bs.modal', function(event) {
 			// Button that triggered the modal
 			var button = event.relatedTarget
@@ -133,6 +202,18 @@
 		}
 
 		function eliminarUsuario() {
+			var id = $("#identificadorDeUsuario").val();
+			window.location = "/del/" + id;
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function confirmarEliminar2(id) {
+			$("#identificadorDeUsuario").val(id);
+			$('#modalValorar').modal('show');
+		}
+
+		function eliminarUsuario2() {
 			var id = $("#identificadorDeUsuario").val();
 			window.location = "/del/" + id;
 		}

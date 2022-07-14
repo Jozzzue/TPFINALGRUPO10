@@ -38,16 +38,16 @@
 
 		<tbody>
 			<tr class="text-center" th:each="movie:${movies}">
-				<td th:text="${movie.id}"></td>
-				<td th:text="${movie.name}"></td>
-				<td><img th:src="${'data:image/png;base64,'+movie.image}" alt="150x150" class=" circle img-fluid" /></td>
+				<td   th:text="${movie.id}"></td>
+				<td   th:text="${movie.name}"></td>
+				<td><img th:src="${'data:image/png;base64,'+movie.image}" alt="150x150" class="" height="180" width="230" /></td>
 				<td th:text="${movie.genres}"></td>
 				<td th:text="${movie.description}"></td>
 				<td th:text="${movie.lenght}"></td>
 				<td th:text="${movie.premiere}"></td>
 				<td th:text="${movie.schedule}"></td>
 				<td th:text="${movie.hall}"></td>
-				 <td>
+				 <td class="text-center" >
 			      	<a class="btn btn-warning fa fa-pencil" th:href="@{/updateMovie/}+${movie.id}"></a>
 			      	<a class="btn btn-danger fa fa-trash" th:onclick="'javascript:confirmarEliminar(\''+${movie.id}+'\');'"></a>
 			     </td>

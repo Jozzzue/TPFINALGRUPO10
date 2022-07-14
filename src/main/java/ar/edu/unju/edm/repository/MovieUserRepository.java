@@ -3,12 +3,11 @@ package ar.edu.unju.edm.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.unju.edm.model.Comment;
-
+import ar.edu.unju.edm.model.MovieUser;
 
 
 @Repository
-public interface  CommentsRepository extends CrudRepository <Comment,Integer>{
+public interface  MovieUserRepository extends CrudRepository <MovieUser,Integer>{
 	
            
 }

@@ -13,22 +13,35 @@
 <body id="bodyForm">
 <div th:insert="/layouts/header :: header"></div>
 <div class="container">
+ <div class="alert alert-success alert-dismissible fade show row" role="alert" th:if="${formLoginErrorMessage}" >
+		<label th:text="${formLoginErrorMessage}"></label>  
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	<div class="alert alert-success alert-dismissible fade show row" role="alert" th:if="${param.error}" >
+		<label >Combinacion Invalida de Usuario y Contraseña</label>  
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	<div class="alert alert-success alert-dismissible fade show row" role="alert" th:if="${param.logout}" >
+		<label >Ha finalizado Sesion</label>  
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 <form class="form" th:object="${usuarioDelForm}" th:action="@{/login}" method="post" id="form">
   <div class="grupo"><!-- grupo -->
   <h1>Login</h1>
+   <label for="dni">DNI</label>
     <input type="text" class="form-control" id="dni" aria-describedby="dniHelp" placeholder="Ingrese DNI" name="documento" th:field="*{dni}">    
- <label for="dni">DNI</label>
+
   </div>
   <div class="grupo">
+    <label for="passwordID">Password</label>
     <input type="password" class="form-control" id="passwordID" placeholder="Contraseña" name="pasaje" th:field="*{password}">
-  <label for="passwordID">Password</label>
+
   </div>  
   <button type="submit" class="btn btn-primary">Ingresar</button>
-  <div class="alert-danger text-center" th:if="${formLoginErrorMessage}" th:text="${formLoginErrorMessage}">Name Error</div>  
+ 
 </form>
 
-	<div th:if="${param.error}" class="alert alert-danger" role="alert">Combinacion Invalida de Usuario y Contraseña</div>
-	<div th:if="${param.logout}" class="alert alert-success" role="alert">Ha finalizado sesion</div>
+	
 </div>
 </body>
 

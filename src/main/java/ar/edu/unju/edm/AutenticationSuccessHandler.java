@@ -24,17 +24,15 @@ public class AutenticationSuccessHandler implements AuthenticationSuccessHandler
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		
-		boolean admin=false, normal=false;
+		boolean admin=false;
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities ) {
 			if(grantedAuthority.getAuthority().equals("ADMIN")) {
 				admin=true; break;
-			}else {
-				normal=true; break;
 			}
 		}
 			if(admin) {
-				redirectStrategy.sendRedirect(request, response, "/anotherMovie");
+				redirectStrategy.sendRedirect(request, response, "/addMovie");
 			}else
 				redirectStrategy.sendRedirect(request, response, "/home");
 	}

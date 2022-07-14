@@ -69,9 +69,13 @@ public class Movie {
 	@NotNull(message="Elija una sala")
 	private int hall;
 	
+	private int averageRating;
+	
 	public Movie() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -186,6 +190,16 @@ public class Movie {
 		this.lenght = lenght;
 		this.status = status;
 		this.hall = hall;
+	}
+
+
+	public int getAverageRating() {
+		return averageRating;
+	}
+
+
+	public void setAverageRating(int averageRating) {
+		this.averageRating = averageRating;
 	}
 	
 	
