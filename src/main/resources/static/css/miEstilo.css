@@ -3,6 +3,9 @@
 	padding: 0;
 }
 
+html{
+	scroll-behavior: smooth;
+}
 
 html, body {
 	background: rgb(2, 0, 36);
@@ -19,15 +22,16 @@ body{
 header{
     position: fixed;
     top: -15px;
-    left: 0;
+    left: 0px;
     right: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: 0.6s;
-    padding: 40px 100px;
-
+    padding: 40px;
+	z-index: 10000;
+	background: darkorchid;
 }
 
 header .nameGroup{
@@ -35,10 +39,11 @@ header .nameGroup{
     font-weight: 700;
     color: white;
     text-decoration: none;
-    font-size: 2em;
+    font-size: 1em;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: 0.6s;
+    margin-top: 20px;
 }
 
 header ul{
@@ -63,17 +68,26 @@ header ul li a{
     transition: 0.5s;
 }
 header .nameGroup:hover, header ul li a:hover{
-	color: red;
+	color: #ffff00;
 	}
-header.sticky{
-	background: #ff5604;
-	padding: 5px 100px;
-	top: 0px;
-	z-index: 10000;
+	
+/* User Dropdown */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --gray: #555;
+  --purple: #4e65ff;
+  --green-blue: #92effd;
+  --white: #fff;
 }
-header.sticky .nameGroup, header.sticky ul li a{
-	color: #ffffff;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
+
 
 /* Registros */
 
@@ -95,11 +109,17 @@ form{
 	padding: 20px 0;
 	box-shadow: 0 0 6px 0 rgba(255,255,255,0.8);
 	border-radius: 10px;
+	text-align: center;
 }
 
 .form{
-	width: 40%;
-	margin-left: 30%;
+	width: 45%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.form-check-label{
+	display: inline-block;
 }
 
 form .grupo{
@@ -123,31 +143,13 @@ input:focus{
 	color: rgb(94,93,93);
 }
 
-button{
-	background: rgb(36,0,3);
-background: linear-gradient(90deg, rgba(36,0,3,1) 0%, rgba(231,19,59,1) 28%, rgba(209,0,255,1) 100%);
-	border: none;
-	width: 80%;
-	margin: 10px auto;
-	color: white;
-	height: 40px;
-	font-size: 16px;
-	margin-left: 10%;
+.grupo label{
+	float:left;
 }
 
-#botonVolver{
-background: rgb(0,22,36);
-background: linear-gradient(90deg, rgba(0,22,36,1) 0%, rgba(19,144,231,1) 28%, rgba(0,146,255,1) 100%);
-	border: none;
-	width: 80%;
-	margin: 10px auto;
-	color: white;
-	height: 40px;
-	font-size: 16px;
-	margin-left: 10%;
-	
+#genreID{
+	float:  left;
 }
-
 
 /* Footer */
 ul {
@@ -253,7 +255,6 @@ ul {
 
 .footer-widget ul li {
   display: inline-block;
-  float: left;
   width: 50%;
   margin-bottom: 12px;
 }
@@ -279,16 +280,6 @@ ul {
 .footer-widgetI ul li a {
   color: #ffffff;
   text-transform: capitalize;
-}
-
-.copyright-area{
-  background: #202020;
-  padding: 25px;
-}
-.copyright-text p {
-  margin: 0;
-  font-size: 14px;
-  color: #ffffff;
 }
 
 .footer-menu li {
@@ -377,7 +368,7 @@ ul {
 
 .left-col {
   background-size: cover;
-  background-postion: center top;
+  background-position: center top;
   overflow: hidden;
   margin: 2rem;
   position: relative;
@@ -483,8 +474,18 @@ div.caption-heading h1{
 }
 
 div.caption-subhead span{
-	color: white;
+	color: #ffff80;
 	text-shadow: 5px 5px 5px #400040;
+	font-family: Tahoma;
+font-size: 20px;
+letter-spacing: 0px;
+word-spacing: 0px;
+color: #f6fa00;
+font-weight: bold;
+text-decoration: none;
+font-style: italic;
+font-variant: normal;
+text-transform: none;
 }
 
 /* Comentarios */
@@ -533,7 +534,7 @@ div.caption-subhead span{
 }
 .media .nombre span{
     font-size: 12px;
-    color: #464646;
+    color: #000000;
     margin-left: 10px;
 }
 
@@ -593,3 +594,170 @@ div.caption-subhead span{
     color: #c59b08;
 }
 
+.media{
+	background: white;
+	color: #000000;
+border-radius: 6px;
+border-color: black;
+border-width: 1px;
+padding-bottom: 5px;
+margin-top:5px;
+height: auto;
+}
+
+.comentario{
+	margin: -20px 5px 5px 5px;
+	border: 1px solid #506bff;
+	border-radius: 6px;
+	height: auto;
+  word-wrap: break-word;
+}
+
+/* User Dropdown */
+.navigation {
+  position: fixed;
+  top: 40px;
+  right: 810px;
+  width: 100px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  background: var(--white);
+  box-shadow: 0 25px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: height 0.5s, width 0.5s;
+  transition-delay: 0s, 0.75s;
+}
+
+.navigation .user-box {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.navigation .user-box .username {
+  font-size: 1.2rem;
+  white-space: nowrap;
+  color: var(--gray);
+}
+
+.navigation .user-box .image-box {
+  position: relative;
+  min-width: 60px;
+  height: 60px;
+  background: var(--white);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 10px solid var(--white);
+
+}
+
+.navigation .user-box .image-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigation .menu-toggle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navigation .menu-toggle::before {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 2px;
+  background: var(--gray);
+  transform: translateY(-10px);
+  box-shadow: 0 10px var(--gray);
+  transition: 0.5s;
+}
+
+.navigation .menu-toggle::after {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 2px;
+  background: var(--gray);
+  transform: translateY(10px);
+  transition: 0.5s;
+}
+
+.menuP {
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  margin-top: 60px;
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.menuP li {
+  list-style: none;
+}
+
+.menuP li a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--gray);
+}
+
+.menuP li a small{
+	margin-top: 25px;
+	}
+i.fa.fa-eye, i.fa.fa-pencil{
+	margin-top: 25px;
+}
+.menuP li a ion-icon {
+  font-size: 1.5rem;
+}
+
+.menuP li a:hover {
+  color: var(--purple);
+}
+
+.navigation.active .menu-toggle::before {
+  transform: translateY(0px) rotate(45deg);
+  box-shadow: none;
+}
+
+.navigation.active .menu-toggle::after {
+  transform: translateY(0px) rotate(-45deg);
+}
+
+.navigation.active {
+  width: 280px;
+  height: 130px;
+  transition: width 0.5s, height 0.5s;
+  transition-delay: 0s, 0.75s;
+}
+
+.navigation.active .user-box {
+  width: calc(100% - 60px);
+  transition-delay: 0s;
+}
+
+button.dropdown-item{
+	position: relative;
+	margin-bottom: -25px;
+	margin-left: 2px;
+}
