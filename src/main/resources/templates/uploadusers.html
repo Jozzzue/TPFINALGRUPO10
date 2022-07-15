@@ -26,12 +26,13 @@
 
 <div class="container">
 <!-- Formulario -->
-	<form class="form" th:object="${user}" th:action="${editMode}?@{/editUser}:@{/saveUser}" method="post" id="formGeneral">
+	<form class="form" th:object="${user}" th:action="${editMode}?@{/editUser}:@{/saveUser}" th:if="${editMode2==false}"method="post" id="formGeneral">
 		
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{status}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{id}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{dni}">
 		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{type}">
+		<input type="hidden" class="form-control"  th:if="${editMode}" th:field="*{password}">
 		<h1>Registro</h1>
 		 <div class="grupo mb-3" th:if="${editMode == false}">
 			<label for="dni" class="form-label">DNI:</label>
@@ -55,22 +56,67 @@
 			 <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
  
 		</div>
-		<div class="grupo mb-3">
+		<div class="grupo mb-3" th:if="${editMode == false}">
 			<label for="pwd" class="form-label">Contraseña:</label> 
 			<input th:field="*{password}" type="password" class="form-control" id="pwd" placeholder="Contraseña..." required>
 			<div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 		</div>
 		
-		<div class="grupo mb-3" th:if="${editMode == false}">
+		<div class="mb-3" th:if="${editMode == false}">
 			<label	class="form-check-label" for="gridRadios3">NORMAL</label>
 			<input class="form-check-input form-check-inline" type="radio" id="gridRadios3" value="NORMAL" th:field="*{type}" checked> 
-		</div>
-		<div class="grupo mb-3" th:if="${editMode == false}">											
 			<label	class="form-check-label" for="gridRadios2">ADMIN</label>
 			<input class="form-check-input form-check-inline" type="radio" id="gridRadios2" value="ADMIN" th:field="*{type}">
 			<div class="alert alert-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
 		</div>
 		<button type="submit" class="btn btn-primary"><span th:text="${editMode}?'Modificar':'Guardar'"></span></button>
+  <a id="botonVolver"class="btn btn-secondary" th:href="@{/}">Volver</a>
+	</form>
+	
+	<form class="form" th:object="${user}" th:action="@{/editUser2}" th:if="${editMode2==true}"method="post" id="formGeneral">
+		
+		<input type="hidden" class="form-control"  th:if="${editMode2}" th:field="*{status}">
+		<input type="hidden" class="form-control"  th:if="${editMode2}" th:field="*{id}">
+		<input type="hidden" class="form-control"  th:if="${editMode2}" th:field="*{dni}">
+		<input type="hidden" class="form-control"  th:if="${editMode2}" th:field="*{type}">
+		<input type="hidden" class="form-control"  th:if="${editMode2}" th:field="*{password}">
+		<h1>Registro</h1>
+		 <div class="grupo mb-3" th:if="${editMode2 == false}">
+			<label for="dni" class="form-label">DNI:</label>
+			<input type="text" th:field="*{dni}" class="form-control" id="dni" placeholder="00.000.000" title="Debe poner 8 números" required>
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+		</div>
+		
+		<div class="grupo mb-3">
+			<label for="nameID" class="form-label">Nombre:</label> 
+			<input th:field="*{name}" type="text" class="form-control" id="nameID" placeholder="Nombre..." required>
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+		</div>
+		 <div class="grupo mb-3">
+    			<label for="apellidoID" class="form-label">Apellido</label>
+    			<input th:field="*{lastname}" type="text" class="form-control" placeholder="Apellido..." id="apellidoID" required>
+    			<div class="alert alert-danger" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
+  		</div>
+		<div class="grupo mb-3 mt-3">
+			<label for="emailID" class="form-label">Email:</label> 
+			<input th:field="*{email}" type="email" class="form-control" id="emailID" placeholder="Email..." required>
+			 <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+ 
+		</div>
+		<div class="grupo mb-3" th:if="${editMode2 == false}">
+			<label for="pwd" class="form-label">Contraseña:</label> 
+			<input th:field="*{password}" type="password" class="form-control" id="pwd" placeholder="Contraseña..." required>
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+		</div>
+		
+		<div class="mb-3" th:if="${editMode2 == false}">
+			<label	class="form-check-label" for="gridRadios3">NORMAL</label>
+			<input class="form-check-input form-check-inline" type="radio" id="gridRadios3" value="NORMAL" th:field="*{type}" checked> 
+			<label	class="form-check-label" for="gridRadios2">ADMIN</label>
+			<input class="form-check-input form-check-inline" type="radio" id="gridRadios2" value="ADMIN" th:field="*{type}">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+		</div>
+		<button type="submit" class="btn btn-primary"><span th:text="${editMode2}?'Modificar':'Guardar'"></span></button>
   <a id="botonVolver"class="btn btn-secondary" th:href="@{/}">Volver</a>
 	</form>
 </div>

@@ -36,6 +36,7 @@ public class UserController {
 		ModelAndView view = new ModelAndView("uploadusers");
 		view.addObject("user", newUser);
 		view.addObject("editMode",false);
+		view.addObject("editMode2",false);
 		return view;
 	}
 	
@@ -47,6 +48,7 @@ public class UserController {
 			LOGGER.fatal("Error de validacion");
 			model.addAttribute("usuario", usertosave);
 			model.addAttribute("editMode", false);
+			model.addAttribute("editMode2", false);
 			return "uploadusers";
 		}
 			try {
@@ -55,6 +57,7 @@ public class UserController {
 				model.addAttribute("formUserErrorMessage", e.getMessage());
 				model.addAttribute("user", usertosave);
 				model.addAttribute("editMode", false);
+				model.addAttribute("editMode2", false);
 				LOGGER.error("saliendo del metodo: saveUser");
 				return "uploadusers";
 			}
@@ -62,6 +65,7 @@ public class UserController {
 			model.addAttribute("formUserErrorMessage", "Usuario guardado correctamente");
 			model.addAttribute("user", newUser);	 
 			model.addAttribute("editMode", false);
+			model.addAttribute("editMode2", false);
 			return "uploadusers";
 
 		
@@ -106,6 +110,7 @@ public class UserController {
 	    view.addObject("user", userfound);
 	    LOGGER.error("saliendo del metodo: modUser "+ userfound.getDni());
 	    view.addObject("editMode",true);
+	    view.addObject("editMode2",false);
 	    return view;
 	}
 	
@@ -117,6 +122,7 @@ public class UserController {
 			ModelAndView view = new ModelAndView("uploadusers");
 			view.addObject("user", usertomod);
 			view.addObject("editMode",true);
+			view.addObject("editMode2",false);
 			return view;
 		}
 		try{
@@ -125,6 +131,7 @@ public class UserController {
 			ModelAndView view = new ModelAndView("uploadusers");
 			view.addObject("user", usertomod);
 			view.addObject("editMode",true);
+			view.addObject("editMode2",false);
 			view.addObject("formUserErrorMessage", e.getMessage());
 			LOGGER.error("saliendo del metodo: savemodUser");
 			return view;
@@ -132,9 +139,78 @@ public class UserController {
 		ModelAndView view = new ModelAndView("listusers");		
 		view.addObject("users", userService.showUsers());	
 		view.addObject("formUserErrorMessage","Usuario modificado Correctamente");
+		view.addObject("editMode2",false);
+		return view;
+	}
+	
+	@GetMapping("/update2/{dni}")
+	public ModelAndView modUser2(Model model, @PathVariable(name="dni") int dni) throws Exception {
+		Uzer userfound = new Uzer();
+		
+			try {
+				userfound = userService.findUserByDni(dni);
+				LOGGER.error("Second try modUser: "+userfound.getDni()+ " " +userfound.getId());
+				model.addAttribute("formUserErrorMessage",null);
+			}catch (Exception e) {
+				model.addAttribute("formUserErrorMessage", e.getMessage());
+				
+			} 
+		
+		ModelAndView view = new ModelAndView("uploadusers");
+	    view.addObject("user", userfound);
+	    LOGGER.error("saliendo del metodo: modUser2 "+ userfound.getDni());
+	    view.addObject("editMode2",true);
+	    view.addObject("editMode",false);
+	    return view;
+	}
+	
+	@PostMapping("/editUser2")
+	public ModelAndView savemodUser2(@Valid @ModelAttribute ("user") Uzer usertomod, BindingResult result ) {
+		if(result.hasErrors()){
+			LOGGER.fatal("Error de validacion");
+			ModelAndView view = new ModelAndView("uploadusers");
+			view.addObject("user", usertomod);
+			view.addObject("editMode",false);
+			view.addObject("editMode2",true);
+			return view;
+		}
+		try{
+			userService.modUser(usertomod);
+		}catch(Exception e){
+			ModelAndView view = new ModelAndView("uploadusers");
+			view.addObject("user", usertomod);
+			view.addObject("editMode",false);
+			view.addObject("editMode2",true);
+			view.addObject("formUserErrorMessage", e.getMessage());
+			LOGGER.error("saliendo del metodo: savemodUser");
+			return view;
+		}
+		ModelAndView view = new ModelAndView("userdata");		
+		view.addObject("formUserErrorMessage","Usuario modificado Correctamente");
+		view.addObject("user", usertomod);
 		
 		return view;
 	}
+	
+	@GetMapping("/mydata/{dni}")
+	public ModelAndView seeData(Model model, @PathVariable(name="dni") int dni) throws Exception {
+		Uzer userfound = new Uzer();
+		
+			try {
+				userfound = userService.findUserByDni(dni);
+				LOGGER.error("Second try modUser: "+userfound.getDni()+ " " +userfound.getId());
+				model.addAttribute("formUserErrorMessage",null);
+			}catch (Exception e) {
+				model.addAttribute("formUserErrorMessage", e.getMessage());
+				
+			} 
+		
+		ModelAndView view = new ModelAndView("userdata");
+	    view.addObject("user", userfound);
+	    LOGGER.error("saliendo del metodo: mydata "+ userfound.getDni());
+	    return view;
+	}
+	
 	
 	// eliminar usuarios
 		@RequestMapping("/del/{dni}")

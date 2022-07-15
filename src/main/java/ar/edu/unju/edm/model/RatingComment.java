@@ -4,7 +4,7 @@ package ar.edu.unju.edm.model;
 
 
 
-import java.time.LocalDate;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,47 +15,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-//import javax.validation.constraints.Max;
-//import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name="movie_user")
-public class MovieUser {
+@Table(name="ratings_comments")
+public class RatingComment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="movie_user_id")
+	@Column(name="rating_comment_id")
 	private Integer id;
 
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "movie_id")
     private Movie movie;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
     private Uzer user;
 	
+	//fecha y hora de comentario 
+	private String commentDate;
+	 
+	//contenido del comentario
+	private String commentContent;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate saledate;
-	
-	
-	//cantidad de tickets del usuario
-	@Min(value=1, message="El minimo de tickets es 1")
-	@Max(value=3, message="El maximo de tickets es 3")
-	private Integer tickets;
-	
+	//valoracion
+	private Integer rating;
 
 	
-	public MovieUser() {
+	public RatingComment() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -83,25 +76,32 @@ public class MovieUser {
 		this.user = user;
 	}
 
-	public LocalDate getSaledate() {
-		return saledate;
+	public String getCommentDate() {
+		return commentDate;
 	}
 
-	public void setSaledate(LocalDate saledate) {
-		this.saledate = saledate;
+	public void setCommentDate(String commentDate) {
+		this.commentDate = commentDate;
 	}
 
-	public Integer getTickets() {
-		if(tickets==null)
+	public String getCommentContent() {
+		return commentContent;
+	}
+
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
+	}
+
+	public Integer getRating() {
+		if(rating==null)
 			return 0;
 		else
-		return tickets;
+		return rating;
 	}
 
-	public void setTickets(Integer tickets) {
-		this.tickets = tickets;
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
-
 	
 	
 	
