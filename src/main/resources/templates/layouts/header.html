@@ -15,41 +15,54 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body th:fragment="header">
 	 <header >	
 <a href="/" class="nameGroup">Grupo 10</a>
-  <div class="navigation" sec:authorize="isAuthenticated()">
-    <div class="user-box">
-      <div class="image-box">
-        <img src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png" alt="avatar">
-      </div>
-      <p class="username">Opciones</p>
-    </div>
-    <div class="menu-toggle"></div>
-    <ul class="menuP">
-      <li><a th:href="@{/update/}+${#authentication.getPrincipal().getUsername()}"><i class="fa fa-pencil" aria-hidden="true"></i><small>	Modificar perfil</small></a></li>
-             <li><a th:href="@{/listTickets/}+${#authentication.getPrincipal().getUsername()}"><i class="fa fa-eye" aria-hidden="true"></i><small>	Ver tickets</small></a></li>
-  <li>
-     		 <form th:action="@{/logout}" method="post">
-      		<button class="dropdown-item" type="submit">
-      		<i class="fa fa-sign-out" aria-hidden="true"></i><small>Cerrar Sesion</small>
-      		</button>
-      		</form>
-     		 </li>
-  </ul>
-</div>
     <ul>
+    	
+      
    <!-- sec hasRole no esta funcionando -->
-    <li sec:authorize="isAuthenticated()"><a th:href="@{/addUser}" >Añadir Usuario</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{/listUsers}" >Listar Usuarios</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{/addMovie}" >Añadir Peliculas</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies}">Listar Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addUser}" sec:authorize="hasAuthority('ADMIN')">Añadir Usuario</a></li>
+      <li sec:authorize="isAuthenticated()"><a th:href="@{/mydata/}+${#authentication.getPrincipal().getUsername()}">Ver mis datos</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listUsers}" sec:authorize="hasAuthority('ADMIN')">Listar Usuarios</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addMovie}" sec:authorize="hasAuthority('ADMIN')">Añadir Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies}" sec:authorize="hasAuthority('ADMIN')">Listar Peliculas</a></li>
     <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies2}" >Listar Peliculas</a></li>
-	      
-	   
        <li class="nav-item" sec:authorize="!isAuthenticated()">
       	<a class="btn btn-dark" th:href="@{/addUser}">Registrarse</a>
       </li>
       <li class="nav-item" sec:authorize="!isAuthenticated()">
       	<a class="btn btn-warning" th:href="@{/login}">Iniciar Sesion</a>
-      </li>     															
+      </li>   
+      <li>
+				<div class="navigation" sec:authorize="isAuthenticated()">
+					<div class="user-box">
+						<div class="image-box">
+							<img
+								src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png"
+								alt="avatar">
+						</div>
+						<p class="username">Opciones</p>
+					</div>
+					<div class="menu-toggle"></div>
+					<ul class="menuP">
+						<li><a
+							th:href="@{/update2/}+${#authentication.getPrincipal().getUsername()}"><i
+								class="fa fa-pencil" aria-hidden="true"></i><small>
+									Modificar perfil</small></a></li>
+						<li><a
+							th:href="@{/listTickets/}+${#authentication.getPrincipal().getUsername()}"><i
+								class="fa fa-eye" aria-hidden="true"></i><small> Ver
+									tickets</small></a></li>
+						<li>
+							<form th:action="@{/logout}" method="post">
+								<button class="dropdown-item" type="submit">
+									<i class="fa fa-sign-out" aria-hidden="true"></i><small>Cerrar
+										Sesion</small>
+								</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</li>
+        															
     </ul>
 
 	</header>
