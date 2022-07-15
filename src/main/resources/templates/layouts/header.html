@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link th:href="@{/css/miEstilo.css}" rel="stylesheet" type="text/css">
+	<script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+	<!-- User Dropdown Icons -->	
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+  
+<body th:fragment="header">
+	 <header >	
+<a href="/" class="nameGroup">Grupo 10</a>
+    <ul>
+    	
+      
+   <!-- sec hasRole no esta funcionando -->
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addUser}" sec:authorize="hasAuthority('ADMIN')">Añadir Usuario</a></li>
+      <li sec:authorize="isAuthenticated()"><a th:href="@{/mydata/}+${#authentication.getPrincipal().getUsername()}">Ver mis datos</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listUsers}" sec:authorize="hasAuthority('ADMIN')">Listar Usuarios</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/addMovie}" sec:authorize="hasAuthority('ADMIN')">Añadir Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies}" sec:authorize="hasAuthority('ADMIN')">Listar Peliculas</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/listMovies2}" >Listar Peliculas</a></li>
+       <li class="nav-item" sec:authorize="!isAuthenticated()">
+      	<a class="btn btn-dark" th:href="@{/addUser}">Registrarse</a>
+      </li>
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+      	<a class="btn btn-warning" th:href="@{/login}">Iniciar Sesion</a>
+      </li>   
+      <li>
+				<div class="navigation" sec:authorize="isAuthenticated()">
+					<div class="user-box">
+						<div class="image-box">
+							<img
+								src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png"
+								alt="avatar">
+						</div>
+						<p class="username">Opciones</p>
+					</div>
+					<div class="menu-toggle"></div>
+					<ul class="menuP">
+						<li><a
+							th:href="@{/update2/}+${#authentication.getPrincipal().getUsername()}"><i
+								class="fa fa-pencil" aria-hidden="true"></i><small>
+									Modificar perfil</small></a></li>
+						<li><a
+							th:href="@{/listTickets/}+${#authentication.getPrincipal().getUsername()}"><i
+								class="fa fa-eye" aria-hidden="true"></i><small> Ver
+									tickets</small></a></li>
+						<li>
+							<form th:action="@{/logout}" method="post">
+								<button class="dropdown-item" type="submit">
+									<i class="fa fa-sign-out" aria-hidden="true"></i><small>Cerrar
+										Sesion</small>
+								</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</li>
+        															
+    </ul>
+
+	</header>
+	
+	
+	<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+	 <script>
+	 let menuToggle = document.querySelector('.menu-toggle');
+	 let navigation = document.querySelector('.navigation');
+
+	 menuToggle.onclick = function() {
+	   navigation.classList.toggle('active');
+	 }
+	 </script>
+</body>
+</html>
