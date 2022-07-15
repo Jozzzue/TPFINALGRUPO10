@@ -147,8 +147,8 @@ public class MovieUserController {
 						    	
 
 					//enviar objetos
-					    view.addObject("userTicket", new MovieUser());
-						view.addObject("userRatingComment",new RatingComment());
+					    view.addObject("userTicket", userTicket);
+						view.addObject("userRatingComment",userRatingComment);
 						view.addObject("commentsRatings", commentsRatings);
 						view.addObject("user", user);
 					    view.addObject("movie", movie);
@@ -278,8 +278,8 @@ public class MovieUserController {
 			    	
 
 		//enviar objetos
-		    view.addObject("userTicket", new MovieUser());
-			view.addObject("userRatingComment",new RatingComment());
+		    view.addObject("userTicket", userTicket);
+			view.addObject("userRatingComment",userRatingComment);
 			view.addObject("commentsRatings", commentsRatings);
 			view.addObject("user", user);
 		    view.addObject("movie", movie);
@@ -460,8 +460,8 @@ public class MovieUserController {
 	//Retornar a la vista las listas, usuario, pelicula y nueva MovieUser
 		
 		
-		view.addObject("userTicket", new MovieUser());
-		view.addObject("userRatingComment",new RatingComment());
+		view.addObject("userTicket", userTicket);
+		view.addObject("userRatingComment",userRatingComment);
 		view.addObject("commentsRatings", commentsRatings);
 		view.addObject("user", userfound);
 	    view.addObject("movie", moviefound);
