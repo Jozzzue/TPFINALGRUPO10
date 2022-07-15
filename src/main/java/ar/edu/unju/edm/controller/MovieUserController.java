@@ -28,10 +28,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.edm.model.Movie;
 import ar.edu.unju.edm.model.MovieUser;
-
+import ar.edu.unju.edm.model.RatingComment;
 import ar.edu.unju.edm.model.Uzer;
 import ar.edu.unju.edm.service.IMovieService;
 import ar.edu.unju.edm.service.IMovieUserService;
+import ar.edu.unju.edm.service.IRatingCommentService;
 import ar.edu.unju.edm.service.IUserService;
 import ar.edu.unju.edm.util.ListMovieUser;
 
@@ -43,6 +44,8 @@ public class MovieUserController {
 	
 	@Autowired
 	MovieUser newMovieUser;
+	@Autowired
+	IRatingCommentService ratingCommentService;
 	@Autowired 
 	IMovieUserService movieUserService;
 	@Autowired
@@ -55,7 +58,7 @@ public class MovieUserController {
 	
 	//guardar valoracion
 		@PostMapping(value="/saveComment/{dni}/{id}")
-		public ModelAndView saveComment(@ModelAttribute ("movieUser") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
+		public ModelAndView saveComment(@ModelAttribute ("userRatingComment") RatingComment commentToSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 			ModelAndView view = new ModelAndView("actionsmovies");
 		//encuentro usuario y pelicula
 			Movie movie = new Movie();
@@ -79,64 +82,77 @@ public class MovieUserController {
 			
 			
 			//if(movieUsertoSave.getRating()==0 && movieUsertoSave.getTickets()==0) {
-					movieUsertoSave.setUser(user);
-					movieUsertoSave.setMovie(movie);
+					commentToSave.setUser(user);
+					commentToSave.setMovie(movie);
 			//}
 			
 		// seteo fecha y guardo
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			String aux = dtf.format(LocalDateTime.now());
 			
-			movieUsertoSave.setCommentDate(aux);
+			commentToSave.setCommentDate(aux);
 			
-			LOGGER.info("ingresando al metodo: saveComment "+ movieUsertoSave.getCommentDate()+" "+aux );
+			LOGGER.info("ingresando al metodo: saveComment "+ commentToSave.getCommentDate()+" "+aux );
 			
 			try {
-				movieUserService.saveMovieUser(movieUsertoSave);
+				ratingCommentService.saveRatingComment(commentToSave);
 			}
 			catch (Exception e) {
 				view.addObject("formMovieUserMessage", e.getMessage());
 			}
 			
-			LOGGER.error("saliendo del metodo: saveComment "+ movieUsertoSave.getRating()+" "+movieUsertoSave.getTickets());
+			LOGGER.error("saliendo del metodo: saveComment "+ commentToSave.getRating());
 			// encuentra fila de usuario y pelicula
 			MovieUser specificMovieUser = new MovieUser();
 			specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
 			
-			LOGGER.error("saliendo del metodo: saveComment "+ movieUsertoSave.getRating()+" "+movieUsertoSave.getTickets());
+			LOGGER.error("saliendo del metodo: saveComment "+ commentToSave.getRating());
 			
-			LOGGER.error("saliendo del metodo: saveComment "+ specificMovieUser.getRating()+" "+specificMovieUser.getTickets()+" "+specificMovieUser.getCommentDate());
+			LOGGER.error("saliendo del metodo: saveComment "+specificMovieUser.getTickets());
 			
 		//lista de comentarios de pelicula
-			List<MovieUser> commentsRatings = new ArrayList<>();
-			commentsRatings = movieUserService.findByMovieId(movie.getId());
+			List<RatingComment> commentsRatings = new ArrayList<>();
+			commentsRatings = ratingCommentService.findByMovieId(movie.getId());
 
 			
-				
-				view.addObject("movieUser",specificMovieUser);
-				view.addObject("commentsRatings", commentsRatings);
-				view.addObject("user", user);
-			    view.addObject("movie", movie);
-			    
-			    if(specificMovieUser.getTickets() == 0)
-			    	view.addObject("hasTickets", false);
-			    else
-			    	view.addObject("hasTickets", true);
-			    
-			    if(specificMovieUser.getTickets() < 3)
-			    	view.addObject("purchaseLimit", false);
-			    else
-			    	view.addObject("purchaseLimit", true);
-			    
-			    if(specificMovieUser.getRating() == 0)
-			    	view.addObject("wasRated", false);
-			    else
-			    	view.addObject("wasRated", true);
-			    
-			    if(specificMovieUser.getCommentContent() == null)
-			    	view.addObject("wasCommented", false);
-			    else
-			    	view.addObject("wasCommented", true);
+			// encuentra fila de usuario y pelicula
+						MovieUser userTicket = new MovieUser();
+						userTicket = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+						
+						
+
+						RatingComment userRatingComment = new RatingComment();
+						userRatingComment = ratingCommentService.findByMovieUserId(user.getId(), movie.getId());
+						
+						//enviar banderas
+					    if(userTicket.getTickets() == 0)
+					    	view.addObject("hasTickets", false);
+					    else
+					    	view.addObject("hasTickets", true);
+					    
+					    if(userTicket.getTickets() < 3)
+					    	view.addObject("purchaseLimit", false);
+					    else
+					    	view.addObject("purchaseLimit", true);
+					    
+					    if(userRatingComment.getRating() == 0)
+					    	view.addObject("wasRated", false);
+					    else
+					    	view.addObject("wasRated", true);
+					    
+					    if(userRatingComment.getCommentContent() == null)
+					    	view.addObject("wasCommented", false);
+					    else
+					    	view.addObject("wasCommented", true);
+						    	
+
+					//enviar objetos
+					    view.addObject("userTicket", new MovieUser());
+						view.addObject("userRatingComment",new RatingComment());
+						view.addObject("commentsRatings", commentsRatings);
+						view.addObject("user", user);
+					    view.addObject("movie", movie);
+						
 				
 			return view;
 
@@ -147,7 +163,7 @@ public class MovieUserController {
 	
 	//guardar valoracion
 	@PostMapping(value="/saveRating/{dni}/{id}")
-	public ModelAndView saveRating(@ModelAttribute ("movieUser") MovieUser movieUsertoSave, @PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
+	public ModelAndView saveRating(@ModelAttribute ("userRatingComment") RatingComment ratingtosave, @PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 		ModelAndView view = new ModelAndView("actionsmovies");
 	//busqueda usuario y pelicula	
 		Movie movie = new Movie();
@@ -167,30 +183,28 @@ public class MovieUserController {
 		LOGGER.error("ingresando al metodo: saveRating "+ movie.getDescription()+" "+user.getLastname());
 		
 	//	if(movieUsertoSave.getTickets()==0 && movieUsertoSave.getCommentContent()==null) {
-			movieUsertoSave.setUser(user);
-			movieUsertoSave.setMovie(movie);
+			ratingtosave.setUser(user);
+			ratingtosave.setMovie(movie);
 		//}
 			
 	
-				LOGGER.error("ingresando al metodo: saveRating "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getTickets());
+				LOGGER.error("ingresando al metodo: saveRating "+ ratingtosave.getCommentDate());
 	//guardo rating
 			
 		
 		try {
-			movieUserService.saveMovieUser(movieUsertoSave);
+			ratingCommentService.saveRatingComment(ratingtosave);
 		}
 		catch (Exception e) {
 			view.addObject("formMovieUserMessage", e.getMessage());
 		}
 		
-		LOGGER.error("ingresando al metodo: saveRating "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getTickets());
+		LOGGER.error("ingresando al metodo: saveRating "+ ratingtosave.getCommentDate());
 		
-		// encuentra fila de usuario y pelicula
-		MovieUser specificMovieUser = new MovieUser();
-		specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+		
 		//lista de comentarios
-		    List<MovieUser> commentsRatings = new ArrayList<>();
-			commentsRatings = movieUserService.findByMovieId(movie.getId());
+		List<RatingComment> commentsRatings = new ArrayList<>();
+		commentsRatings = ratingCommentService.findByMovieId(movie.getId());
 		
 		// para setear el promedio general en la pelicula	
 			int length = commentsRatings.size(), sumRatings=0 , aux=0;
@@ -232,33 +246,43 @@ public class MovieUserController {
 			}
 			
 			
+			// encuentra fila de usuario y pelicula
+			MovieUser userTicket = new MovieUser();
+			userTicket = movieUserService.findByMovieUserId(user.getId(), movie.getId());
 			
 			
-			view.addObject("movieUser",specificMovieUser);
-			view.addObject("commentsRatings", commentsRatings);
-			view.addObject("user", user);
-		    view.addObject("movie", movie);
-		    
-		    if(specificMovieUser.getTickets() == 0  )
+
+			RatingComment userRatingComment = new RatingComment();
+			userRatingComment = ratingCommentService.findByMovieUserId(user.getId(), movie.getId());
+			
+			//enviar banderas
+		    if(userTicket.getTickets() == 0)
 		    	view.addObject("hasTickets", false);
 		    else
 		    	view.addObject("hasTickets", true);
 		    
-		    if(specificMovieUser.getTickets() < 3)
+		    if(userTicket.getTickets() < 3)
 		    	view.addObject("purchaseLimit", false);
 		    else
 		    	view.addObject("purchaseLimit", true);
 		    
-		    if(specificMovieUser.getRating() == 0)
+		    if(userRatingComment.getRating() == 0)
 		    	view.addObject("wasRated", false);
 		    else
 		    	view.addObject("wasRated", true);
 		    
-		    if(specificMovieUser.getCommentContent() == null)
+		    if(userRatingComment.getCommentContent() == null)
 		    	view.addObject("wasCommented", false);
 		    else
 		    	view.addObject("wasCommented", true);
-		    
+			    	
+
+		//enviar objetos
+		    view.addObject("userTicket", new MovieUser());
+			view.addObject("userRatingComment",new RatingComment());
+			view.addObject("commentsRatings", commentsRatings);
+			view.addObject("user", user);
+		    view.addObject("movie", movie);
 			
 		return view;
 
@@ -271,7 +295,7 @@ public class MovieUserController {
 	// guardar movieUser
 	
 	@PostMapping(value="/saveTicket/{dni}/{id}")
-	public ModelAndView saveTicket(@ModelAttribute ("movieUser") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
+	public ModelAndView saveTicket(@ModelAttribute ("userTicket") MovieUser movieUsertoSave,@PathVariable(name="dni") int dni, @PathVariable(name="id") int id) {
 		ModelAndView view = new ModelAndView("actionsmovies");
 	// busco pelicula y usuario
 		Movie movie = new Movie();
@@ -293,7 +317,7 @@ public class MovieUserController {
 	
 		
 		
-		LOGGER.error("ingresando al metodo: saveTicket "+ movieUsertoSave.getCommentDate()+" "+movieUsertoSave.getRating()+" "+movieUsertoSave.getCommentContent());
+		LOGGER.error("ingresando al metodo: saveTicket ");
 	
 	// proceso de guardar ticket y controlar q no sea mayor q 3	
 		 int totalTickets=movieUsertoSave.getTickets();
@@ -319,37 +343,44 @@ public class MovieUserController {
 		    	view.addObject("formMovieUserMessage", "Limite de boletos alcanzados");
 		
 		 // encuentra fila de usuario y pelicula
-			MovieUser specificMovieUser = new MovieUser();
-			specificMovieUser = movieUserService.findByMovieUserId(user.getId(), movie.getId());
-	//enviar lista de comentarios 
-		    List<MovieUser> commentsRatings = new ArrayList<>();
-			commentsRatings = movieUserService.findByMovieId(movie.getId());
+		    
+		    MovieUser userTicket = new MovieUser();
+			userTicket = movieUserService.findByMovieUserId(user.getId(), movie.getId());
+	
+			//enviar lista de comentarios 
+			List<RatingComment> commentsRatings = new ArrayList<>();
+			commentsRatings = ratingCommentService.findByMovieId(movie.getId());
+			
+			
+			RatingComment userRatingComment = new RatingComment();
+			userRatingComment = ratingCommentService.findByMovieUserId(user.getId(), movie.getId());
 	
 			
 		//enviar banderas
-			   if(specificMovieUser.getTickets() == 0  )
-			    	view.addObject("hasTickets", false);
-			    else
-			    	view.addObject("hasTickets", true);
-			    
-			   if(specificMovieUser.getTickets() < 3)
-			    	view.addObject("purchaseLimit", false);
-			    else
-			    	view.addObject("purchaseLimit", true);
-			   
-			    if(specificMovieUser.getRating() == 0)
-			    	view.addObject("wasRated", false);
-			    else
-			    	view.addObject("wasRated", true);
-			    
-			    if(specificMovieUser.getCommentContent() == null)
-			    	view.addObject("wasCommented", false);
-			    else
-			    	view.addObject("wasCommented", true);
+		    if(userTicket.getTickets() == 0)
+		    	view.addObject("hasTickets", false);
+		    else
+		    	view.addObject("hasTickets", true);
+		    
+		    if(userTicket.getTickets() < 3)
+		    	view.addObject("purchaseLimit", false);
+		    else
+		    	view.addObject("purchaseLimit", true);
+		    
+		    if(userRatingComment.getRating() == 0)
+		    	view.addObject("wasRated", false);
+		    else
+		    	view.addObject("wasRated", true);
+		    
+		    if(userRatingComment.getCommentContent() == null)
+		    	view.addObject("wasCommented", false);
+		    else
+		    	view.addObject("wasCommented", true);
 			    	
 
 		//enviar objetos
-			view.addObject("movieUser",specificMovieUser);
+		    view.addObject("userTicket",userTicket);
+			view.addObject("userRatingComment",userRatingComment);
 			view.addObject("commentsRatings", commentsRatings);
 			view.addObject("user", user);
 		    view.addObject("movie", movie);
@@ -408,29 +439,29 @@ public class MovieUserController {
 		}
 		
 		
-	// devolver una lista movieUser de la pelicula, que tendra la lista de comentarios y de valoraciones, entre otras cosas
+	// devolver una lista ratingcomment de la pelicula, que tendra la lista de comentarios y de valoraciones, entre otras cosas
 		
-		List<MovieUser> commentsRatings = new ArrayList<>();
-		commentsRatings = movieUserService.findByMovieId(moviefound.getId());
 		
-	/*	devolver una lista movieUser de la pelicula y el usuario, 
-	Que tendra los comentarios del usuario sobre pelicula, ()
-	La valoracion del usuario sobre la pelicula (debe ser una sola o ninguna)
-	Y tambien la cantidad de tickets del usuario(maximo 3, minimo 0)	*/
+		
+		
+		List<RatingComment> commentsRatings = new ArrayList<>();
+		commentsRatings = ratingCommentService.findByMovieId(moviefound.getId());
+		
+		
+	
 
-		MovieUser specificMovieUser = new MovieUser();
-		specificMovieUser = movieUserService.findByMovieUserId(userfound.getId(), moviefound.getId());
+		MovieUser userTicket = new MovieUser();
+		userTicket = movieUserService.findByMovieUserId(userfound.getId(), moviefound.getId());
+		
+		RatingComment userRatingComment = new RatingComment();
+		userRatingComment = ratingCommentService.findByMovieUserId(userfound.getId(), moviefound.getId());
 		
 		
 	//Retornar a la vista las listas, usuario, pelicula y nueva MovieUser
 		
-		if(specificMovieUser.getRating()==0 && specificMovieUser.getTickets()==0 && specificMovieUser.getCommentContent()==null)
-			view.addObject("movieUser", newMovieUser);
-		else
-			view.addObject("movieUser",specificMovieUser);
 		
-		
-		
+		view.addObject("userTicket", new MovieUser());
+		view.addObject("userRatingComment",new RatingComment());
 		view.addObject("commentsRatings", commentsRatings);
 		view.addObject("user", userfound);
 	    view.addObject("movie", moviefound);
@@ -442,22 +473,22 @@ public class MovieUserController {
 
 	    
 	    
-	    if(specificMovieUser.getTickets() == 0)
+	    if(userTicket.getTickets() == 0)
 	    	view.addObject("hasTickets", false);
 	    else
 	    	view.addObject("hasTickets", true);
 	    
-	    if(specificMovieUser.getTickets() < 3)
+	    if(userTicket.getTickets() < 3)
 	    	view.addObject("purchaseLimit", false);
 	    else
 	    	view.addObject("purchaseLimit", true);
 	    
-	    if(specificMovieUser.getRating() == 0)
+	    if(userRatingComment.getRating() == 0)
 	    	view.addObject("wasRated", false);
 	    else
 	    	view.addObject("wasRated", true);
 	    
-	    if(specificMovieUser.getCommentContent() == null)
+	    if(userRatingComment.getCommentContent() == null)
 	    	view.addObject("wasCommented", false);
 	    else
 	    	view.addObject("wasCommented", true);

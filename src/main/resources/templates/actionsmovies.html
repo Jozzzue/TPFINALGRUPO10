@@ -68,9 +68,7 @@
 <!-- COMENTARIOS-->
 	<div class="row comentarios justify-content-center">
 		<div class="col-6">
-			<form th:if="${wasCommented == false}" th:object="${movieUser}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">
-			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
-			<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
+			<form th:if="${wasCommented == false}" th:object="${userRatingComment}" class="form_comentarios d-flex justify-content-end flex-wrap" th:action="@{/saveComment/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">
 			<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
 			<textarea class="form-control" th:field="*{commentContent}" placeholder="comentario"></textarea>
 			<button class="btn" type="submit">Comentar</button>
@@ -98,10 +96,8 @@
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body"><h6></h6>
-										<form th:object="${movieUser}" th:action="@{/saveTicket/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">		
-										<input type="hidden" class="form-control"  th:if="${wasRated}" th:field="*{rating}">
-										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">
-										<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentContent}">
+										<form th:object="${userTicket}" th:action="@{/saveTicket/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post">		
+
 										<label for="cantidadID" class="form-label">Cantidad:</label> 								
 										<input th:field="*{tickets}" class="form-control" type="number" max="3" min="1" id="cantidadID" />
 										
@@ -125,9 +121,8 @@
 										</div>
 										<div class="modal-body">
 										<div class="container">
-										<form th:object="${movieUser}" th:action="@{/saveRating/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post"  class="rate">		
-												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{saledate}">
-												<input type="hidden" class="form-control" th:if="${hasTickets}"  th:field="*{tickets}">
+										<form th:object="${userRatingComment}" th:action="@{/saveRating/}+${#authentication.getPrincipal().getUsername()}+'/'+${movie.id}" method="post"  class="rate">		
+									
 												<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentDate}">
 												<input type="hidden" class="form-control"  th:if="${wasCommented}" th:field="*{commentContent}">
 													<input type="radio" id="star5" name="rate" value="5" th:field="*{rating}"/>

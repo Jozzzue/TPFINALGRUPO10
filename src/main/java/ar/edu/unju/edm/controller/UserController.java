@@ -48,6 +48,7 @@ public class UserController {
 			LOGGER.fatal("Error de validacion");
 			model.addAttribute("usuario", usertosave);
 			model.addAttribute("editMode", false);
+			model.addAttribute("editMode2", false);
 			return "uploadusers";
 		}
 			try {
@@ -56,6 +57,7 @@ public class UserController {
 				model.addAttribute("formUserErrorMessage", e.getMessage());
 				model.addAttribute("user", usertosave);
 				model.addAttribute("editMode", false);
+				model.addAttribute("editMode2", false);
 				LOGGER.error("saliendo del metodo: saveUser");
 				return "uploadusers";
 			}
